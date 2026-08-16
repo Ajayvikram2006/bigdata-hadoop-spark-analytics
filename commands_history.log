@@ -74,3 +74,4 @@
 [2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
 [2026-08-16 20:41] Phase 17.1: Created src/python/alert_monitor.py
 [2026-08-16 20:41] Phase 17.1: python alert_monitor.py -> SUCCESS. Displayed simulated Slack alerts.
+[2026-08-16 20:44] Phase 18.1: Created src/python/dashboard.py using Streamlit

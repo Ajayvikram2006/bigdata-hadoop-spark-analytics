@@ -64,3 +64,4 @@
 | SS-28 | Phase 15 | evidence/phase15/SS-28_historical_streaming.png | Structured Streaming Console Alerts | PENDING |
 | SS-29 | Phase 16 | evidence/phase16/SS-29_drift_detection.png | Statistical concept drift detection output | COMPLETE |
 | SS-30 | Phase 17 | evidence/phase17/SS-30_alert_monitor.png | Python operational alerts terminal output | COMPLETE |
+| SS-31 | Phase 18 | evidence/phase18/SS-31_streamlit_dashboard.png | Streamlit web UI Dashboard | COMPLETE |
