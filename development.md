@@ -348,3 +348,27 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Commit: pending
 ### Current Status: Phase 5 COMPLETE. MapReduce baseline done. Timing recorded.
 ### Next Step: Phase 6 -- Spark RDD Processing (requires approval)
+
+## 2026-08-16 17:55 -- Phase 6 -- Step 6.1 -- Write Spark RDD Job
+
+### Status: COMPLETE (written -- not yet compiled or run)
+### Objective: Write RDDJobParser.scala demonstrating Spark RDD API on CMU job.csv.
+### Why: Faculty requires Spark RDD demonstration distinct from DataFrame API. Also needed for Phase 19 timing comparison.
+### Files Created: src/scala/rdd/RDDJobParser.scala
+### Files Modified: None
+### Commands Run: File creation only (no terminal commands)
+### Errors Encountered: None
+### Design Decisions:
+- Uses SparkContext directly (not SparkSession) to emphasize raw RDD API
+- Demonstrates 5 distinct RDD transformations: textFile, filter, flatMap, map, reduceByKey, mapValues, sortBy
+- parsedRDD.cache() called because RDD is reused in TWO separate action chains (status counts + queue stats)
+- flatMap on Option[T] pattern -- idiomatic Scala for safe record parsing without try/catch overhead per record
+- STATUS_LABELS as immutable Map -- safe to use inside closures (serialized to executors)
+- coalesce(1) for output -- single file for easy faculty cat evidence
+- Outputs TWO HDFS datasets:
+    /project/batch_results/rdd_status_counts/ -- status distribution
+    /project/batch_results/rdd_queue_stats/   -- queueWait stats per status
+### Evidence: SS-12 (Spark UI DAG) and SS-13 (terminal output) required at RUN step.
+### Git: Branch: develop | Commit: pending
+### Current Status: File written. Next: SBT compilation inside spark-master container.
+### Next Step: Phase 6.2 -- Compile SBT and spark-submit RDDJobParser (requires approval)
