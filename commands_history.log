@@ -52,3 +52,5 @@
 [2026-08-16 17:57] Phase 6.2: docker exec spark-master curl sbt-1.8.3.tgz + tar extract -> SBT_EXTRACTED. Exit 0.
 [2026-08-16 18:05] Phase 6.2: sbt clean assembly (with source dir fix) -> [success] 26s, 3 sources compiled. Exit 0.
 [2026-08-16 18:09] Phase 6.2: /spark/bin/spark-submit RDDJobParser -> SUCCESS:49026 FAILED:4534 KILLED:1666, elapsed:7190ms. Exit 0.
+[2026-08-16 18:16] Phase 7.1: Created src/scala/dataframe/CMUDataFrameProcessor.scala
+[2026-08-16 18:20] Phase 7.2: docker exec spark-master bash -c "/spark/bin/spark-submit ... CMUDataFrameProcessor" -> SUCCESS. Elapsed: 161.417s.

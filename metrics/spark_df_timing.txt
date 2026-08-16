@@ -1,0 +1,29 @@
+﻿# ============================================================
+# Spark DataFrame Timing -- Phase 7
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMUDataFrameProcessor-Phase7
+Framework       : Spark 3.2.1 (Standalone cluster)
+Master          : spark://spark-master:7077
+Executor Memory : 2 GB
+Driver Memory   : 2 GB
+Input           : hdfs://namenode:9000/project/raw/cmu/*/job.csv (along with task and attempt)
+Output          : hdfs://namenode:9000/project/processed/cmu_jobs/
+
+--- Partitions ---
+Output Partitions : 20
+Executor Cores    : 4
+
+--- Timing ---
+Elapsed (ms)      : 161,417 ms
+Elapsed (sec)     : 161.417 s
+
+--- Records ---
+Raw job records   : 55,252
+After leakage drop & KILLED exclusion: 53,560
+Clean records after null handling: 53,559 (Removed 1 invalid queueWait)
+
+--- Status Distribution ---
+SUCCESS           : 49,026
+FAILED            :  4,533

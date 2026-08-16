@@ -48,3 +48,6 @@
 | SS-11 | Phase 5 | evidence/phase5/SS-11_mapreduce_output.png | hdfs dfs -cat part-r-00000 output | COMPLETE |
 | SS-12 | Phase 6 | evidence/phase6/SS-12_spark_rdd_dag.png | Spark UI DAG at localhost:4040 | COMPLETE |
 | SS-13 | Phase 6 | evidence/phase6/SS-13_rdd_terminal_output.png | spark-submit terminal with timing output | COMPLETE |
+| SS-14 | Phase 7 | evidence/phase7/SS-14_spark_df_dag.png | Spark UI DAG for DataFrame Job | COMPLETE |
+| SS-15 | Phase 7 | evidence/phase7/SS-15_df_schema.png | DataFrame printSchema output | COMPLETE |
+| SS-16 | Phase 7 | evidence/phase7/SS-16_hdfs_processed_ls.png | hdfs dfs -ls /project/processed/cmu_jobs/ | COMPLETE |

@@ -72,3 +72,5 @@ desktop.ini
 !docker/**
 !src/**
 !scripts/**
+src/scala/target/
+src/scala/project/target/

@@ -413,3 +413,31 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 6 COMPLETE.
 ### Next Step: Phase 7 -- Spark DataFrame Processing (requires approval)
+
+## 2026-08-16 18:22 -- Phase 7 -- Step 7.1 & 7.2 -- Write, Compile + Run Spark DataFrame Job
+
+### Status: COMPLETE
+### Objective: Write CMUDataFrameProcessor.scala, compile with SBT, and spark-submit to cluster.
+### Why: Faculty requires Spark DataFrame API demonstration with joins, schema enforcement, null handling, and caching. Also provides Phase 19 timing data point.
+### Files Created:
+- src/scala/dataframe/CMUDataFrameProcessor.scala
+- hdfs://namenode:9000/project/processed/cmu_jobs/ (Parquet output partitioned by label)
+- metrics/spark_df_timing.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cp /host-project/src/scala/target/scala-2.12/bigdata-analytics-assembly-1.0.0.jar /opt/spark-apps/ && /spark/bin/spark-submit ... CMUDataFrameProcessor" -> Job completed. Exit 0.
+### Validation:
+- DataFrame schema explicitly defined, avoiding 22 GB inference cost.
+- Jobs joined with aggregated tasks and attempts data using left joins.
+- Nulls filled and invalid queueWait removed (1 record).
+- Final processed records: 53,559 (SUCCESS 49026, FAILED 4533).
+### Timing (Phase 19 comparison):
+- Spark DataFrame elapsed: 161.417 s
+- Saved to metrics/spark_df_timing.txt
+### Evidence:
+- Screenshot ID: SS-14 -- required NOW (Spark UI DAG at localhost:4040)
+- Screenshot ID: SS-15 -- required NOW (terminal output with schema)
+- Screenshot ID: SS-16 -- required NOW (HDFS ls /project/processed/)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 7 COMPLETE.
+### Next Step: Phase 8 -- Spark Dataset Processing (requires approval)
