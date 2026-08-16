@@ -66,3 +66,4 @@
 [2026-08-16 19:11] Phase 12.1: sbt assembly and spark-submit -> SUCCESS. Acc: 91.67%, AUC: 0.50.
 [2026-08-16 19:13] Phase 13.1: Created src/scala/ml/CMURandomForest.scala
 [2026-08-16 19:14] Phase 13.1: sbt assembly and spark-submit -> SUCCESS. Acc: 92.28%, AUC: 0.8947.
+[2026-08-16 19:18] Phase 14.1: Executed HDFSLogPreprocessor on 16GB dataset -> SUCCESS. Parsed 58M records.

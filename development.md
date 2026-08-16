@@ -572,3 +572,24 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 13 COMPLETE.
 ### Next Step: Phase 14 -- Anomaly Detection: K-Means (requires approval)
+
+## 2026-08-16 19:18 -- Phase 14 -- Step 14.1 -- Execute HDFS_v2 Log Preprocessor
+
+### Status: COMPLETE
+### Objective: Execute HDFSLogPreprocessor.scala on the 16 GB HDFS_v2 dataset.
+### Why: Parsed logs are a strict prerequisite for the K-Means Anomaly Detection model.
+### Files Created:
+- hdfs://namenode:9000/project/processed/hdfs_logs/ (Parquet output)
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && spark-submit ... HDFSLogPreprocessor" -> Success.
+### Validation:
+- Parsed 71,118,073 raw lines into 58,095,613 structured records.
+- Dropped multi-line STARTUP_MSG continuations cleanly.
+- Node distribution: namenode generated 16.8M logs; mesos datanodes generated ~1.2M - 2.6M each.
+- Level distribution: INFO (57.5M), WARN (500K), ERROR (24K), FATAL (4).
+### Evidence:
+- Screenshot ID: SS-25 -- required NOW (Terminal output showing successful parsing of logs)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 14.1 COMPLETE.
+### Next Step: Phase 14.2 -- K-Means Anomaly Detection (requires approval)
