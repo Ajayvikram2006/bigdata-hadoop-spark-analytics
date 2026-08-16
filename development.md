@@ -64,3 +64,79 @@
 
 ---
 ## NEXT: Step 0.8-0.11 — Initialize living documents (this file + 3 others)
+
+---
+
+## 2026-08-16 — Phase 0 (cont.) + Phase 1
+
+### Steps 0.8–0.11 — Initialize Living Documents
+**Status:** COMPLETE
+**Files Created:**
+- D:\BigData\Project_1\development.md (3 KB)
+- D:\BigData\Project_1\requirements-traceability.md (1.4 KB)
+- D:\BigData\Project_1\evidence-register.md (3.4 KB)
+- D:\BigData\Project_1\commands_history.log (1.7 KB)
+**Command:** Set-Content for each file → OK, verified with Get-ChildItem
+**Errors:** None
+
+### Step 0.12 — Conflict/Ambiguity Report
+**Status:** COMPLETE (verbal)
+**All conflicts resolved in Project Constitution v2.0:**
+- Dashboard: Streamlit Phase 1, React optional Phase 2
+- Anomaly detection: K-Means (Spark MLlib native)
+- Compilation: Inside Docker containers, not locally
+- docker-compose.yml: No version field (Compose v5 compatible)
+
+---
+
+## 2026-08-16 — Phase 1 — Git + Project Scaffold
+
+### Phase 1 — Git Initialization
+**Status:** COMPLETE
+**Command:** git init → Initialized empty Git repository in D:/BigData/Project_1/.git/
+**Branch:** master (default)
+**Config:** user.name=S Ajay Vikram | user.email=ajay@project.local
+**Errors:** None
+
+### Phase 1 — Directory Structure
+**Status:** COMPLETE
+**Directories Created (all new):**
+src/scala/{preprocessing,rdd,dataframe,dataset,ml,anomaly,streaming,drift}
+src/mapreduce, src/dashboard, docker, docs, scripts, metrics
+evidence/phase{0..19}, models, predictions, streaming_output, alerts, results
+**Command:** New-Item -ItemType Directory -Force for each path → OK
+**.gitkeep files:** Added to all empty directories so Git tracks structure
+**Errors:** None
+
+### Phase 1 — .gitignore
+**Status:** COMPLETE
+**Excludes:** cmu_opencloud/, hdfs_v2/, hdfs_v2_extracted/, models/, predictions/,
+streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/, etc.
+**Verified:** Raw data directories NOT staged — gitignore working correctly
+**Errors:** None
+
+### Phase 1 — README.md
+**Status:** COMPLETE
+**Content:** Project overview, tech stack, dataset table, key facts, docs index
+
+### Phase 1 — First Git Commit
+**Status:** COMPLETE
+**Commit hash:** 28be075
+**Message:** feat: initialize project scaffold and documentation structure
+**Files committed:** 43 (docs + .gitkeep files + config)
+**Raw data committed:** NO (gitignore confirmed working)
+**CRLF Warning:** LF will be replaced by CRLF — Windows Git behavior, informational only
+**Branch after commit:** develop (created and checked out)
+**Branches:** master (stable), develop (current HEAD)
+**Errors:** CRLF warnings — not errors, fix with .gitattributes in next commit
+
+### Current Verified State (end of Phase 1)
+- Git repo: initialized, 1 commit (28be075), on develop branch
+- All directories: present on disk
+- .gitignore: working — 22 GB raw data NOT in Git
+- Living documents: all 4 present and initialized
+- No Docker containers running yet
+- No HDFS running yet
+- Phase 2 approved: docker-compose.yml to be written next
+
+## NEXT: Phase 2 — Write docker-compose.yml + hadoop.env + start cluster
