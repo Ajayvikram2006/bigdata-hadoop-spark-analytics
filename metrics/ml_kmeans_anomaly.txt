@@ -1,0 +1,35 @@
+﻿# ============================================================
+# ML K-Means Anomaly Detection Evaluation -- Phase 14.2
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMUKMeansAnomaly-Phase14.2
+Framework       : Spark MLlib
+Algorithm       : K-Means Clustering
+Input Data      : hdfs://namenode:9000/project/processed/hdfs_logs
+K               : 5
+Features        : eventCount, errorCount, warningCount, uniqueComponents (StandardScaled)
+Windows         : 5-minute tumbling windows
+
+--- Performance ---
+Total Node Windows Generated : 294,649
+Training Time                : 9.979 seconds
+
+--- Cluster Distribution ---
+Cluster 0: 194,056
+Cluster 1: 15,422
+Cluster 2: 4,818
+Cluster 3: 26,546
+Cluster 4: 53,807
+
+--- Top 10 Anomalies ---
+1. namenode (2016-11-18 16:25:00) | Score: 7584.49 | Events: 108,385
+2. namenode (2016-10-22 14:25:00) | Score: 4658.94 | Events: 85,297
+3. namenode (2016-10-23 05:40:00) | Score: 3956.76 | Events: 78,673
+... (and more from namenode)
+
+--- Interpretation ---
+The unsupervised anomaly detection successfully clustered the node activity.
+The highest anomaly scores point to the 'namenode' experiencing massive spikes 
+in log activity (e.g., over 100,000 log events in just a 5-minute window), 
+which is highly indicative of a system-wide incident or metadata storm.

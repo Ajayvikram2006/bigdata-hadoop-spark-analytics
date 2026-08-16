@@ -67,3 +67,5 @@
 [2026-08-16 19:13] Phase 13.1: Created src/scala/ml/CMURandomForest.scala
 [2026-08-16 19:14] Phase 13.1: sbt assembly and spark-submit -> SUCCESS. Acc: 92.28%, AUC: 0.8947.
 [2026-08-16 19:18] Phase 14.1: Executed HDFSLogPreprocessor on 16GB dataset -> SUCCESS. Parsed 58M records.
+[2026-08-16 20:14] Phase 14.2: Created src/scala/ml/CMUKMeansAnomaly.scala
+[2026-08-16 20:15] Phase 14.2: sbt assembly and spark-submit -> SUCCESS. Top anomalies found on namenode.

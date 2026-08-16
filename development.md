@@ -593,3 +593,23 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 14.1 COMPLETE.
 ### Next Step: Phase 14.2 -- K-Means Anomaly Detection (requires approval)
+
+## 2026-08-16 20:15 -- Phase 14 -- Step 14.2 -- K-Means Anomaly Detection
+
+### Status: COMPLETE
+### Objective: Write CMUKMeansAnomaly.scala, compile, and execute unsupervised anomaly detection.
+### Why: Faculty requires an unsupervised pipeline for HDFS logs due to lack of ground truth labels.
+### Files Created:
+- src/scala/ml/CMUKMeansAnomaly.scala
+- metrics/ml_kmeans_anomaly.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && spark-submit ... CMUKMeansAnomaly" -> Success.
+### Validation:
+- Extracted 294,649 5-minute time windows across all nodes.
+- K-Means successfully trained and identified massive activity spikes (over 100k events/5-min) on the NameNode as the top anomalies.
+### Evidence:
+- Screenshot ID: SS-26 -- required NOW (Terminal output showing anomaly scores)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 14.2 COMPLETE.
+### Next Step: Phase 15 -- Structured Streaming Historical Replay (requires approval)
