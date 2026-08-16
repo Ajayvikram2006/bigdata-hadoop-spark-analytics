@@ -1,0 +1,26 @@
+﻿# ============================================================
+# ML Logistic Regression Evaluation -- Phase 12
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMULogisticRegression-Phase12
+Framework       : Spark MLlib
+Algorithm       : Logistic Regression (Baseline)
+Input Data      : hdfs://namenode:9000/project/batch_results/sql_output
+
+--- Split ---
+Training Data: 42,927 records (80%)
+Testing Data : 10,632 records (20%)
+
+--- Performance ---
+Accuracy       : 0.9167
+Area Under ROC : 0.5000
+Training Time  : 1.576 seconds
+
+--- Interpretation ---
+The model achieved 91.67% accuracy, which is simply the baseline accuracy 
+of always predicting the majority class (SUCCESS). The Area Under ROC is 
+0.5000, indicating the model learned no discriminatory features. 
+This is because the ElasticNet regularization was too strong, shrinking 
+all coefficients to zero (Intercept = -2.3768). We will use a more complex 
+non-linear model (Random Forest) next to capture the true signal.

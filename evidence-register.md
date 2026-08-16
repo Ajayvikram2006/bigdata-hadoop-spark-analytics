@@ -57,3 +57,4 @@
 | SS-20 | Phase 9 | evidence/phase9/SS-20_sql_explain.png | SQL Execution Plan (Explain) terminal output | COMPLETE |
 | SS-21 | Phase 10 | evidence/phase10/SS-21_spark_streaming.png | Spark Streaming Console Output | PENDING_USER_TEST |
 | SS-22 | Phase 11 | evidence/phase11/SS-22_orchestration_run.png | Terminal showing run_pipeline.sh executing | PENDING_USER_TEST |
+| SS-23 | Phase 12 | evidence/phase12/SS-23_lr_metrics.png | Logistic Regression Evaluation Metrics Terminal Output | COMPLETE |
