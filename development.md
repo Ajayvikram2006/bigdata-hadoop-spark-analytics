@@ -242,3 +242,32 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Commit: pending (will commit after evidence registered)
 ### Current Status: Phase 4 COMPLETE. All evidence captured.
 ### Next Step: Phase 5 — Hadoop MapReduce Java Baseline
+
+## 2026-08-16 17:43 — Phase 5 — Step 5.1 — Write Java MapReduce Files
+
+### Status: COMPLETE (written — not yet compiled)
+### Objective: Write the 3 Java MapReduce source files for job-status counting baseline.
+### Why: Faculty requires MapReduce demonstration. Establishes performance baseline before Spark.
+### Files Created:
+- src/mapreduce/JobStatusMapper.java
+- src/mapreduce/JobStatusReducer.java
+- src/mapreduce/JobStatusDriver.java
+### Files Modified: None
+### Commands Run:
+- File creation only (no terminal commands executed)
+### Errors Encountered: None
+### Validation:
+- All 3 files present in src/mapreduce/ — verified by file creation tools
+### Design Decisions:
+- setCombinerClass(JobStatusReducer.class) — local pre-aggregation reduces shuffle data
+- setNumReduceTasks(1) — single output file for easy faculty demonstration
+- Skips header lines starting with "jtid" and SASL INFO log lines
+- Hadoop Counters used for DataQuality reporting (MALFORMED_RECORDS, UNPARSEABLE_STATUS)
+- Extends Configured implements Tool — best practice for ToolRunner compatibility
+### Evidence:
+- Screenshot ID: SS-09 — required at COMPILE step (not this step)
+### Git:
+- Branch: develop
+- Commit: pending
+### Current Status: Phase 5.1 write complete. Step 5.2 = compile inside namenode container.
+### Next Step: Phase 5.2 — Compile Java MapReduce inside namenode container (requires approval)

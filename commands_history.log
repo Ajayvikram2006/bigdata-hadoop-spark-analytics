@@ -40,3 +40,6 @@
 [2026-08-16 17:38] Phase 4.2 SS-07: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5" → Schema confirmed 12 cols. Exit 0.
 [2026-08-16 17:38] Phase 4.2 SS-08 FAIL: awk -F',' NR>1 syntax error → PowerShell escaping issue with dollar and brackets
 [2026-08-16 17:40] Phase 4.2 SS-08 FIX: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | tail -n +2 | cut -d',' -f6 | sort | uniq -c | sort -rn" → SUCCESS:652, FAILED:62, KILLED:41, UNKNOWN:1. Exit 0.
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusMapper.java
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusReducer.java
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusDriver.java
