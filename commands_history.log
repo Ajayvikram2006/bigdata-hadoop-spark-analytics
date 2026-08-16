@@ -43,3 +43,6 @@
 [2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusMapper.java
 [2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusReducer.java
 [2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusDriver.java
+[2026-08-16 17:44] Phase 5.2: docker exec namenode bash -c "java -version && hadoop version" -> OpenJDK 1.8.0_232, Hadoop 3.2.1. Exit 0.
+[2026-08-16 17:45] Phase 5.2: javac -classpath (hadoop classpath) FAIL: PowerShell interception. Fixed via docker cp + sed -i BOM removal.
+[2026-08-16 17:48] Phase 5.2: docker exec namenode bash /tmp/build_mr.sh -> BUILD_SUCCESS. JAR: /opt/hadoop-apps/job-status-mr.jar (5.5K). Exit 0.

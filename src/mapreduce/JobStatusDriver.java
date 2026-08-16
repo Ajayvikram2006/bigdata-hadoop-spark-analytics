@@ -15,14 +15,14 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 /**
- * JobStatusDriver — Phase 5 (MapReduce Baseline)
+ * JobStatusDriver â€” Phase 5 (MapReduce Baseline)
  *
  * Orchestrates the MapReduce job that counts CMU job statuses.
  *
  * Execution (inside namenode container):
- *   hadoop jar /opt/hadoop-apps/job-status-mr.jar \
- *     edu.project1.mapreduce.JobStatusDriver \
- *     /project/raw/cmu/*/job.csv \
+ *   hadoop jar /opt/hadoop-apps/job-status-mr.jar
+ *     edu.project1.mapreduce.JobStatusDriver
+ *     /project/raw/cmu/(glob)/job.csv
  *     /project/mapreduce_output/job_status_counts
  *
  * The driver:
@@ -51,21 +51,21 @@ public class JobStatusDriver extends Configured implements Tool {
         String inputPath  = (args.length > 0) ? args[0] : DEFAULT_INPUT;
         String outputPath = (args.length > 1) ? args[1] : DEFAULT_OUTPUT;
 
-        System.out.println("=".repeat(65));
-        System.out.println("JobStatusDriver — Phase 5 — MapReduce Baseline");
+        System.out.println("=================================================================");
+        System.out.println("JobStatusDriver â€” Phase 5 â€” MapReduce Baseline");
         System.out.println("Input  : " + inputPath);
         System.out.println("Output : " + outputPath);
-        System.out.println("=".repeat(65));
+        System.out.println("=================================================================");
 
-        // ── Clean previous output if it exists ──────────────
+        // -- Clean previous output if it exists --
         FileSystem fs = FileSystem.get(conf);
         Path outPath = new Path(outputPath);
         if (fs.exists(outPath)) {
-            System.out.println("[WARN] Output path exists — deleting: " + outputPath);
+            System.out.println("[WARN] Output path exists â€” deleting: " + outputPath);
             fs.delete(outPath, true);
         }
 
-        // ── Configure MapReduce Job ─────────────────────────
+        // -- Configure MapReduce Job --
         Job job = Job.getInstance(conf, "CMU-JobStatus-Counter");
         job.setJarByClass(JobStatusDriver.class);
 
@@ -73,7 +73,7 @@ public class JobStatusDriver extends Configured implements Tool {
         job.setMapperClass(JobStatusMapper.class);
         job.setReducerClass(JobStatusReducer.class);
 
-        // Combiner: use the Reducer as a local combiner (pure sum — safe)
+        // Combiner: use the Reducer as a local combiner (pure sum â€” safe)
         job.setCombinerClass(JobStatusReducer.class);
 
         // Output key/value types
@@ -86,14 +86,14 @@ public class JobStatusDriver extends Configured implements Tool {
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        // 1 reducer → single output file, easy faculty demonstration
+        // 1 reducer â†’ single output file, easy faculty demonstration
         job.setNumReduceTasks(1);
 
         // Set I/O paths (supports glob pattern for */job.csv)
         FileInputFormat.addInputPath(job, new Path(inputPath));
         FileOutputFormat.setOutputPath(job, outPath);
 
-        // ── Execute and Time ────────────────────────────────
+        // -- Execute and Time --
         long startMs = System.currentTimeMillis();
         System.out.println("[INFO] Job submitted at: " + new java.util.Date(startMs));
 
@@ -103,15 +103,15 @@ public class JobStatusDriver extends Configured implements Tool {
         long elapsedMs = endMs - startMs;
         long elapsedSec = elapsedMs / 1000;
 
-        // ── Timing Report ───────────────────────────────────
-        System.out.println("\n" + "=".repeat(65));
-        System.out.println("TIMING REPORT — MapReduce Baseline");
-        System.out.println("=".repeat(65));
+        // -- Timing Report --
+        System.out.println("\n" + "=================================================================");
+        System.out.println("TIMING REPORT â€” MapReduce Baseline");
+        System.out.println("=================================================================");
         System.out.printf("  Start time   : %s%n", new java.util.Date(startMs));
         System.out.printf("  End time     : %s%n", new java.util.Date(endMs));
         System.out.printf("  Elapsed time : %d ms  (%d seconds)%n", elapsedMs, elapsedSec);
         System.out.printf("  Status       : %s%n", success ? "SUCCESS" : "FAILED");
-        System.out.println("=".repeat(65));
+        System.out.println("=================================================================");
         System.out.println("Record this in: metrics/mapreduce_timing.txt");
 
         return success ? 0 : 1;
@@ -122,3 +122,4 @@ public class JobStatusDriver extends Configured implements Tool {
         System.exit(exitCode);
     }
 }
+

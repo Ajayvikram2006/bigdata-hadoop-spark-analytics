@@ -271,3 +271,43 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Commit: pending
 ### Current Status: Phase 5.1 write complete. Step 5.2 = compile inside namenode container.
 ### Next Step: Phase 5.2 — Compile Java MapReduce inside namenode container (requires approval)
+
+## 2026-08-16 17:48 -- Phase 5 -- Step 5.2 -- Compile MapReduce JAR
+
+### Status: COMPLETE
+### Objective: Compile Java MapReduce source into a deployable JAR inside namenode container.
+### Why: No local Java/Hadoop available. Container has OpenJDK 1.8 + Hadoop 3.2.1 classpath.
+### Files Created: /opt/hadoop-apps/job-status-mr.jar (inside namenode container, 5.5K)
+### Files Modified: src/mapreduce/JobStatusDriver.java (multiple bug fixes during compilation)
+### Commands Run:
+- docker exec namenode bash -c "java -version && hadoop version" -> OpenJDK 1.8.0_232, Hadoop 3.2.1. Exit 0.
+- docker cp + docker exec bash /tmp/build_mr.sh -> COMPILE_OK + BUILD_SUCCESS. Exit 0.
+- JAR size: 5.5K. Classes: Mapper.class, Reducer.class, Driver.class confirmed.
+### Errors Encountered:
+- ERROR 1 (SEVERITY: LOW): PowerShell heredoc/dollar-sign parsing intercepted bash -c subshell.
+  Root cause: PowerShell expanded  before passing to docker exec.
+  Fix: Used docker cp to push a clean shell script into container, then executed from inside.
+- ERROR 2 (SEVERITY: LOW): javac unmappable character for ASCII encoding.
+  Root cause: Unicode box-drawing chars in comments, no -encoding flag.
+  Fix: Added -encoding UTF-8 to javac command in build script.
+- ERROR 3 (SEVERITY: LOW): Javadoc parser rejected wildcard glob * and backslash continuation in comments.
+  Root cause: javac parses Javadoc * as potential end-of-comment marker.
+  Fix: Replaced glob pattern in Javadoc with plain text (glob).
+- ERROR 4 (SEVERITY: LOW): String.repeat(int) not found.
+  Root cause: String.repeat() is Java 11+. Container has Java 1.8.
+  Fix: Replaced "=".repeat(65) with a literal "=================================================================" string.
+- ERROR 5 (SEVERITY: LOW): illegal character \ufeff (UTF-8 BOM).
+  Root cause: PowerShell Set-Content re-added BOM when saving the patched file.
+  Fix: docker exec sed -i '1s/^\xEF\xBB\xBF//' removed BOM inside container.
+### Validation:
+- All 3 .class files present in /opt/hadoop-apps/classes/
+- JAR created at /opt/hadoop-apps/job-status-mr.jar (5.5K)
+- BUILD_SUCCESS confirmed
+### Evidence:
+- Screenshot ID: SS-09 -- required NOW (compilation success output)
+- Filename: evidence/phase5/SS-09_mapreduce_compile.png
+### Git:
+- Branch: develop
+- Commit: pending
+### Current Status: JAR compiled. Ready for spark-submit equivalent: hadoop jar execution.
+### Next Step: Phase 5.3 -- Run MapReduce job + capture timing (SS-10, SS-11)
