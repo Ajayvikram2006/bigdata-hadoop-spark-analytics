@@ -514,3 +514,19 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 10 COMPLETE.
 ### Next Step: Phase 11 -- Orchestration Script (requires approval)
+
+## 2026-08-16 18:50 -- Phase 11 -- Step 11.1 -- Write Orchestration Script
+
+### Status: COMPLETE (Execution pending user interaction)
+### Objective: Create scripts/run_pipeline.sh to sequentially run MapReduce and Spark phases.
+### Why: Faculty requires an end-to-end orchestration mechanism.
+### Files Created:
+- scripts/run_pipeline.sh
+### Files Modified: None
+### Commands Run: N/A (Script written)
+### Errors Encountered: None
+### Evidence:
+- Screenshot ID: SS-22 -- required NOW (Terminal running run_pipeline.sh)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 11 COMPLETE.
+### Next Step: Phase 19 -- End-to-End Performance Benchmarking

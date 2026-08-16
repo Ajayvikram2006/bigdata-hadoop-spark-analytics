@@ -61,3 +61,4 @@
 [2026-08-16 18:42] Phase 9.1: sbt assembly and spark-submit -> SUCCESS. Elapsed: 111.084s. Output: 53559 records.
 [2026-08-16 18:46] Phase 10.1: Created src/scala/streaming/CMUStreamingJob.scala
 [2026-08-16 18:48] Phase 10.1: sbt assembly -> SUCCESS.
+[2026-08-16 18:50] Phase 11.1: Created scripts/run_pipeline.sh
