@@ -140,3 +140,31 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Phase 2 approved: docker-compose.yml to be written next
 
 ## NEXT: Phase 2 — Write docker-compose.yml + hadoop.env + start cluster
+
+### Phase 2.1 — Fix Spark Image Tags
+**Status:** COMPLETE
+**Command:** Edit docker-compose.yml (via multi_replace_file_content)
+**Output:** bde2020/spark-master and spark-worker tags updated to 3.2.1-hadoop3.2
+**Errors:** None (original 3.0.0 tag didn't exist)
+**Git commit:** b4b1dc3 (fix: correct spark image tags in docker-compose.yml)
+
+### Phase 2.2 — Docker Cluster Startup & Initialization
+**Status:** COMPLETE
+**Command:** docker-compose up -d
+**Output:** namenode, datanode1, datanode2, spark-master, and spark-worker successfully pulled and started.
+**Validation:** 
+- docker exec namenode hdfs dfsadmin -report confirmed 2 Live DataNodes.
+- HDFS directory structure created via hdfs dfs -mkdir -p /project/...
+- Replication factor set to 2 via hdfs dfs -setrep -R 2 /project
+**Evidence:** SS-01, SS-02, SS-03 (pending user capture)
+
+### Phase 3 — Data Ingestion into HDFS
+**Status:** COMPLETE
+**Objective:** Upload 38 GB of raw data from local disk into the running HDFS cluster.
+**Command:** 
+- docker exec namenode bash -c "hdfs dfs -put /host-project/cmu_opencloud/20* /project/raw/cmu/"
+- docker exec namenode bash -c "hdfs dfs -put /host-project/hdfs_v2_extracted/node_logs/* /project/raw/hdfs_v2/"
+**Validation:**
+- hdfs dfs -du -s -h /project/raw/cmu returned 22.0 G
+- hdfs dfs -du -s -h /project/raw/hdfs_v2 returned 16.1 G
+**Evidence:** SS-04, SS-05, SS-06 (pending user capture)

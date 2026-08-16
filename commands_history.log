@@ -19,3 +19,11 @@
 [2026-08-16 13:10] P0 S0.3 | Get-Content datanode.log -TotalCount 5 | OK — STARTUP_MSG multi-line
 [2026-08-16 13:14] P0 S0.5 | Get-ChildItem E:\Docker -Filter *.vhdx | OK — disks on E: confirmed
 [2026-08-16 13:16] P0 S0.6 | Set-Content .wslconfig | OK — 10GB/8core/4GB swap written
+[2026-08-16] Phase 2: docker-compose up -d
+[2026-08-16] Phase 2: docker exec namenode hdfs dfsadmin -report
+[2026-08-16] Phase 2: docker exec namenode hdfs dfs -mkdir -p /project/raw/cmu /project/raw/hdfs_v2 /project/processed /project/features /project/models /project/predictions /project/mapreduce_output /project/batch_results /project/streaming_output /project/alerts /project/backups
+[2026-08-16] Phase 2: docker exec namenode hdfs dfs -setrep -R 2 /project
+[2026-08-16] Phase 3: docker exec namenode bash -c "hdfs dfs -put /host-project/cmu_opencloud/20* /project/raw/cmu/"
+[2026-08-16] Phase 3: docker exec namenode bash -c "hdfs dfs -put /host-project/hdfs_v2_extracted/node_logs/* /project/raw/hdfs_v2/"
+[2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/cmu
+[2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/hdfs_v2

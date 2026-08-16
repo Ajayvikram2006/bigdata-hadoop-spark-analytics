@@ -35,3 +35,9 @@
 | SS-29 | 16 | evidence/phase16/SS-29_drift_detection.png | Drift score + alert output | PENDING | |
 | SS-30 | 18 | evidence/phase18/SS-30_dashboard_overview.png | Dashboard Overview page | PENDING | |
 | SS-35 | 19 | evidence/phase19/SS-35_performance_table.png | MR vs Spark timing table | PENDING | |
+| SS-01 | Phase 2 | docker exec namenode hdfs dfsadmin -report showing 2 datanodes | COMPLETE |
+| SS-02 | Phase 2 | NameNode Web UI (http://localhost:9870) | COMPLETE |
+| SS-03 | Phase 2 | Spark Master UI (http://localhost:8080) | COMPLETE |
+| SS-04 | Phase 3 | CMU file count/size in HDFS | COMPLETE |
+| SS-05 | Phase 3 | HDFS_v2 log file size in HDFS | COMPLETE |
+| SS-06 | Phase 3 | Verification of directory structure hdfs dfs -ls /project/raw | COMPLETE |
