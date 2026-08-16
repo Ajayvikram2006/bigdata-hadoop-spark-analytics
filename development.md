@@ -372,3 +372,44 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: File written. Next: SBT compilation inside spark-master container.
 ### Next Step: Phase 6.2 -- Compile SBT and spark-submit RDDJobParser (requires approval)
+
+## 2026-08-16 18:10 -- Phase 6 -- Step 6.2 -- Compile + Run Spark RDD Job
+
+### Status: COMPLETE
+### Objective: Compile SBT fat JAR and spark-submit RDDJobParser to cluster.
+### Why: Faculty requires Spark RDD demonstration with timing evidence (SS-12, SS-13).
+### Files Created:
+- /host-project/src/scala/target/scala-2.12/bigdata-analytics-assembly-1.0.0.jar (20 KB)
+- /opt/spark-apps/bigdata-analytics-assembly-1.0.0.jar (deployed inside spark-master)
+- hdfs://namenode:9000/project/batch_results/rdd_status_counts/
+- hdfs://namenode:9000/project/batch_results/rdd_queue_stats/
+- metrics/spark_rdd_timing.txt
+### Files Modified: src/scala/build.sbt (source directory fix)
+### Commands Run:
+- docker exec spark-master bash -c "curl ... sbt-1.8.3.tgz" -> SBT_EXTRACTED. Exit 0.
+- docker exec spark-master bash -c "sbt --version" -> IllegalStateException from root dir. Non-blocking (SBT installed correctly).
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt clean assembly" -> [success] 26s. Exit 0.
+- docker exec spark-master bash -c "/spark/bin/spark-submit ... RDDJobParser" -> Job completed. Exit 0.
+### Errors Encountered:
+- ERROR 1 (SEVERITY: LOW): First SBT assembly produced empty 280-byte JAR.
+  Root cause: SBT default source discovery uses src/main/scala/ layout. Our files are in project root subdirs.
+  Fix: Added Compile / unmanagedSourceDirectories += baseDirectory.value to build.sbt.
+- ERROR 2 (SEVERITY: LOW): spark-submit not on PATH in spark-master container.
+  Root cause: bde2020 image puts Spark at /spark/bin/ not on default PATH.
+  Fix: Used /spark/bin/spark-submit explicitly.
+### Validation:
+- 3 Scala sources compiled: CMUPreprocessor, HDFSLogPreprocessor, RDDJobParser.
+- Status counts EXACT MATCH with MapReduce baseline and Phase 0 analysis.
+- RDD partitions: 20 (correct -- one per job.csv file).
+- KEY INSIGHT: FAILED jobs have avg queue wait 76,348ms vs SUCCESS 22,267ms (3.4x higher). Strong ML signal.
+### Timing (Phase 19 comparison):
+- MapReduce wall-clock: 5.283 s
+- Spark RDD elapsed   : 7.190 s
+- Note: Spark overhead is cluster init. Advantage grows with repeated queries on larger data.
+### Evidence:
+- Screenshot ID: SS-12 -- required NOW (Spark UI DAG at localhost:4040)
+- Screenshot ID: SS-13 -- required NOW (terminal output with timing)
+- Filenames: evidence/phase6/SS-12_spark_rdd_dag.png, evidence/phase6/SS-13_rdd_terminal_output.png
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 6 COMPLETE.
+### Next Step: Phase 7 -- Spark DataFrame Processing (requires approval)

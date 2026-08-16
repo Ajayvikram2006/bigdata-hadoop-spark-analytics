@@ -62,7 +62,12 @@ lazy val root = (project in file("."))
       "-Xlint"
     ),
 
-    // ── Test options ────────────────────────────────────────
+    // ── Source directories ──────────────────────────────────────
+    // Our Scala files live directly in project subdirs (preprocessing/, rdd/, etc.)
+    // NOT in the default src/main/scala/ layout. Tell SBT to look here:
+    Compile / unmanagedSourceDirectories += baseDirectory.value,
+
+    // ── Test options ────────────────────────────────────────────
     Test / fork             := true,
     Test / parallelExecution := false
   )

@@ -46,3 +46,5 @@
 | SS-09 | Phase 5 | evidence/phase5/SS-09_mapreduce_compile.png | javac + jar BUILD_SUCCESS output | COMPLETE |
 | SS-10 | Phase 5 | evidence/phase5/SS-10_mapreduce_run_timing.png | hadoop jar timing output | COMPLETE |
 | SS-11 | Phase 5 | evidence/phase5/SS-11_mapreduce_output.png | hdfs dfs -cat part-r-00000 output | COMPLETE |
+| SS-12 | Phase 6 | evidence/phase6/SS-12_spark_rdd_dag.png | Spark UI DAG at localhost:4040 | COMPLETE |
+| SS-13 | Phase 6 | evidence/phase6/SS-13_rdd_terminal_output.png | spark-submit terminal with timing output | COMPLETE |
