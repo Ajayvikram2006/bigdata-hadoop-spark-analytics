@@ -43,3 +43,6 @@
 | SS-06 | Phase 3 | Verification of directory structure hdfs dfs -ls /project/raw | COMPLETE |
 | SS-07 | Phase 4 | evidence/phase4/SS-07_schema_inspection.png | CMU job.csv header + 4 rows | COMPLETE |
 | SS-08 | Phase 4 | evidence/phase4/SS-08_target_distribution.png | Status distribution per column 6 | COMPLETE |
+| SS-09 | Phase 5 | evidence/phase5/SS-09_mapreduce_compile.png | javac + jar BUILD_SUCCESS output | COMPLETE |
+| SS-10 | Phase 5 | evidence/phase5/SS-10_mapreduce_run_timing.png | hadoop jar timing output | COMPLETE |
+| SS-11 | Phase 5 | evidence/phase5/SS-11_mapreduce_output.png | hdfs dfs -cat part-r-00000 output | COMPLETE |

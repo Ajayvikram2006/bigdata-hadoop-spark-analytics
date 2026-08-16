@@ -311,3 +311,40 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Commit: pending
 ### Current Status: JAR compiled. Ready for spark-submit equivalent: hadoop jar execution.
 ### Next Step: Phase 5.3 -- Run MapReduce job + capture timing (SS-10, SS-11)
+
+## 2026-08-16 17:51 -- Phase 5 -- Step 5.3 -- Run MapReduce Job
+
+### Status: COMPLETE
+### Objective: Execute MapReduce job against 22 GB CMU dataset and record timing.
+### Why: Faculty requires MapReduce execution evidence (SS-10, SS-11) and baseline timing for Phase 19.
+### Files Created: 
+- /project/mapreduce_output/job_status_counts/part-r-00000 (inside HDFS, 51 bytes)
+- metrics/mapreduce_timing.txt
+### Files Modified: None
+### Commands Run:
+- docker exec namenode bash -c "time hadoop jar /opt/hadoop-apps/job-status-mr.jar edu.project1.mapreduce.JobStatusDriver" -> Job completed successfully. Exit 0.
+- docker exec namenode bash -c "hdfs dfs -cat /project/mapreduce_output/job_status_counts/part-r-00000" -> Output confirmed. Exit 0.
+### Errors Encountered: None
+### Validation:
+- Map input records: 55,272 (matches our Phase 0 count exactly)
+- Reducer output:
+    FAILED    4534  (8.21%) -- MATCHES Phase 0 verified count
+    KILLED    1666  (3.01%) -- MATCHES Phase 0 verified count
+    SUCCESS  49026 (88.74%) -- MATCHES Phase 0 verified count
+    UNKNOWN_6   26  (0.05%) -- MATCHES Phase 0 verified count
+- DataQuality counters: UNKNOWN_STATUS=26, MALFORMED=0 (clean data confirmed)
+- Combiner reduced 55,252 map outputs to 69 records (effective pre-aggregation)
+- Zero shuffle errors, zero failed shuffles
+### Timing (BASELINE for Phase 19):
+- Elapsed: 3,598 ms (3 seconds)
+- Wall-clock: 5.283 s
+- Saved to: metrics/mapreduce_timing.txt
+### Evidence:
+- Screenshot ID: SS-10 -- required NOW (terminal timing output)
+- Screenshot ID: SS-11 -- required NOW (HDFS cat of part-r-00000)
+- Filenames: evidence/phase5/SS-10_mapreduce_run_timing.png, evidence/phase5/SS-11_mapreduce_output.png
+### Git:
+- Branch: develop
+- Commit: pending
+### Current Status: Phase 5 COMPLETE. MapReduce baseline done. Timing recorded.
+### Next Step: Phase 6 -- Spark RDD Processing (requires approval)

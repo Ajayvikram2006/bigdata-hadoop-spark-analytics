@@ -46,3 +46,5 @@
 [2026-08-16 17:44] Phase 5.2: docker exec namenode bash -c "java -version && hadoop version" -> OpenJDK 1.8.0_232, Hadoop 3.2.1. Exit 0.
 [2026-08-16 17:45] Phase 5.2: javac -classpath (hadoop classpath) FAIL: PowerShell interception. Fixed via docker cp + sed -i BOM removal.
 [2026-08-16 17:48] Phase 5.2: docker exec namenode bash /tmp/build_mr.sh -> BUILD_SUCCESS. JAR: /opt/hadoop-apps/job-status-mr.jar (5.5K). Exit 0.
+[2026-08-16 17:50] Phase 5.3: docker exec namenode bash -c "time hadoop jar /opt/hadoop-apps/job-status-mr.jar edu.project1.mapreduce.JobStatusDriver" -> Job completed. Map=20, Reduce=1. SUCCESS:49026 FAILED:4534 KILLED:1666 UNKNOWN:26. Elapsed:3598ms. Exit 0.
+[2026-08-16 17:50] Phase 5.3: docker exec namenode bash -c "hdfs dfs -cat /project/mapreduce_output/job_status_counts/part-r-00000" -> FAILED 4534 / KILLED 1666 / SUCCESS 49026 / UNKNOWN_6 26. Exit 0.
