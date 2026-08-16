@@ -1,0 +1,74 @@
+﻿# ============================================================
+# RAW DATA — NEVER COMMIT (immutable, too large for Git)
+# ============================================================
+cmu_opencloud/
+hdfs_v2/
+hdfs_v2_extracted/
+
+# ============================================================
+# LARGE OUTPUT FILES (regeneratable)
+# ============================================================
+models/
+predictions/
+streaming_output/
+results/
+alerts/
+*.parquet
+*.orc
+*.avro
+*.csv.gz
+*.snappy
+
+# ============================================================
+# JAVA / SCALA BUILD ARTIFACTS
+# ============================================================
+target/
+project/target/
+project/project/
+*.class
+*.jar
+.bsp/
+.metals/
+.bloop/
+
+# ============================================================
+# PYTHON
+# ============================================================
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# ============================================================
+# IDE AND OS
+# ============================================================
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# DOCKER / WSL DISK IMAGES
+# ============================================================
+*.vhdx
+
+# ============================================================
+# EXPLICITLY KEEP (unignore living documents and evidence)
+# ============================================================
+!development.md
+!requirements-traceability.md
+!evidence-register.md
+!commands_history.log
+!evidence/**
+!metrics/**
+!docs/**
+!docker/**
+!src/**
+!scripts/**

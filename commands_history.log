@@ -1,0 +1,21 @@
+﻿# commands_history.log
+# Project: Distributed Hadoop Cluster Failure Prediction and Log Intelligence Platform
+# Rule: Append every command run with timestamp and one-line result summary.
+# Format: [YYYY-MM-DD HH:MM] PHASE STEP | COMMAND | RESULT
+
+[2026-08-16 13:06] P0 S0.1 | systeminfo | findstr OS Memory | OK — Win11 16GB
+[2026-08-16 13:06] P0 S0.1 | Get-CimInstance Win32_Processor | OK — i7-13650HX 14C/20L
+[2026-08-16 13:06] P0 S0.1 | Get-PSDrive C,D,E | OK — C:69GB D:150GB E:294GB free
+[2026-08-16 13:06] P0 S0.1 | docker/git/java/python --version | OK — all installed
+[2026-08-16 13:07] P0 S0.1 | scala -version | FAIL — not installed locally (expected)
+[2026-08-16 13:07] P0 S0.1 | sbt sbtVersion | FAIL — not installed locally (expected)
+[2026-08-16 13:09] P0 S0.2 | Get-ChildItem cmu_opencloud -Recurse | OK — 20 months 22.025GB
+[2026-08-16 13:09] P0 S0.2 | Get-ChildItem hdfs_v2_extracted\node_logs | OK — 31 files 16.06GB
+[2026-08-16 13:10] P0 S0.3 | Get-Content job.csv -TotalCount 4 | OK — 12 columns confirmed
+[2026-08-16 13:10] P0 S0.3 | Count job status distribution | OK — 55252 total 8.21% failure
+[2026-08-16 13:10] P0 S0.3 | Get-Content counter.csv -TotalCount 3 | OK — integer-encoded keys
+[2026-08-16 13:10] P0 S0.3 | Get-Content attempt.csv -TotalCount 3 | OK — retry data present
+[2026-08-16 13:10] P0 S0.3 | Get-Content namenode.log -TotalCount 5 | OK — multi-line format found
+[2026-08-16 13:10] P0 S0.3 | Get-Content datanode.log -TotalCount 5 | OK — STARTUP_MSG multi-line
+[2026-08-16 13:14] P0 S0.5 | Get-ChildItem E:\Docker -Filter *.vhdx | OK — disks on E: confirmed
+[2026-08-16 13:16] P0 S0.6 | Set-Content .wslconfig | OK — 10GB/8core/4GB swap written
