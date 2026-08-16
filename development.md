@@ -551,3 +551,24 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 12 COMPLETE.
 ### Next Step: Phase 13 -- ML Pipeline: Random Forest (requires approval)
+
+## 2026-08-16 19:14 -- Phase 13 -- Step 13.1 -- ML Pipeline (Random Forest)
+
+### Status: COMPLETE
+### Objective: Write CMURandomForest.scala, compile, and execute primary ML training.
+### Why: Faculty requires a Random Forest model. Demonstrates ability to capture non-linear predictive signals.
+### Files Created:
+- src/scala/ml/CMURandomForest.scala
+- metrics/ml_rf_evaluation.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && cp ... && spark-submit ... CMURandomForest" -> Success.
+### Validation:
+- Model Accuracy: 92.28%
+- AUC ROC: 0.8947
+- Note: Massive improvement over LR baseline! The RF model captured the non-linear signals successfully. Top predictors: totalTasks (53.5%) and mapReduceRatio (30.6%).
+### Evidence:
+- Screenshot ID: SS-24 -- required NOW (Terminal showing model accuracy, ROC, and feature importances)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 13 COMPLETE.
+### Next Step: Phase 14 -- Anomaly Detection: K-Means (requires approval)

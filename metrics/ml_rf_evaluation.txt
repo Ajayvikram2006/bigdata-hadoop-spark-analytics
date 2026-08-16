@@ -1,0 +1,34 @@
+﻿# ============================================================
+# ML Random Forest Evaluation -- Phase 13
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMURandomForest-Phase13
+Framework       : Spark MLlib
+Algorithm       : Random Forest Classifier
+Input Data      : hdfs://namenode:9000/project/batch_results/sql_output
+Trees           : 50
+Max Depth       : 10
+
+--- Split ---
+Training Data: 42,927 records (80%)
+Testing Data : 10,632 records (20%)
+
+--- Performance ---
+Accuracy       : 0.9228
+Area Under ROC : 0.8947
+Training Time  : 5.091 seconds
+
+--- Feature Importances ---
+totalTasks          : 0.535434
+mapReduceRatio      : 0.306473
+queueWaitMs         : 0.158093
+taskFailureCount    : 0.000000
+retryRate           : 0.000000
+
+--- Interpretation ---
+Unlike the Logistic Regression baseline (AUC 0.5), the Random Forest successfully 
+captured the non-linear signals, achieving an excellent AUC of 0.8947!
+The most predictive features of job failure are 'totalTasks' (53.5%) and 
+'mapReduceRatio' (30.6%). This suggests that jobs with extremely large task counts 
+or heavily skewed Map-to-Reduce ratios are significantly more likely to fail.

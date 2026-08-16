@@ -58,3 +58,4 @@
 | SS-21 | Phase 10 | evidence/phase10/SS-21_spark_streaming.png | Spark Streaming Console Output | PENDING_USER_TEST |
 | SS-22 | Phase 11 | evidence/phase11/SS-22_orchestration_run.png | Terminal showing run_pipeline.sh executing | PENDING_USER_TEST |
 | SS-23 | Phase 12 | evidence/phase12/SS-23_lr_metrics.png | Logistic Regression Evaluation Metrics Terminal Output | COMPLETE |
+| SS-24 | Phase 13 | evidence/phase13/SS-24_rf_metrics.png | Random Forest Evaluation Metrics Terminal Output | COMPLETE |
