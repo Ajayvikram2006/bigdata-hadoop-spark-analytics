@@ -1,4 +1,4 @@
-﻿services:
+services:
 
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -58,7 +58,7 @@
         condition: service_healthy
 
   spark-master:
-    image: bde2020/spark-master:3.0.0-hadoop3.2-java8
+    image: bde2020/spark-master:3.2.1-hadoop3.2
     container_name: spark-master
     restart: unless-stopped
     ports:
@@ -77,7 +77,7 @@
         condition: service_healthy
 
   spark-worker:
-    image: bde2020/spark-worker:3.0.0-hadoop3.2-java8
+    image: bde2020/spark-worker:3.2.1-hadoop3.2
     container_name: spark-worker
     restart: unless-stopped
     ports:
