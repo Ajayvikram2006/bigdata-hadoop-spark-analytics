@@ -168,3 +168,31 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - hdfs dfs -du -s -h /project/raw/cmu returned 22.0 G
 - hdfs dfs -du -s -h /project/raw/hdfs_v2 returned 16.1 G
 **Evidence:** SS-04, SS-05, SS-06 (pending user capture)
+
+### Phase 4.1 — Data Validation (Schema Discovery)
+**Status:** COMPLETE
+**Objective:** Verify data schema inside HDFS.
+**Command:** 
+- hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5
+- hdfs dfs -cat /project/raw/cmu/*/job.csv | wc -l
+- hdfs dfs -cat /project/raw/hdfs_v2/hadoop-hdfs-datanode-mesos-01.log | head -n 5
+**Validation:**
+- job.csv schema exactly matches expected: jtid,jobid,submitTime,launchTime,finishTime,status,numMaps,numReduces,finMaps,finReduces,failMaps,failReduces
+- Total job count: 55,252 records (55,272 lines with headers).
+- Log file schema exactly matches expected: YYYY-MM-DD HH:mm:ss,SSS LEVEL Component: Message
+- Multi-line logs identified (e.g., STARTUP_MSG).
+**Evidence:** None required for this step.
+
+### Phase 5.1 — Scala SBT Project Scaffold
+**Status:** COMPLETE
+**Objective:** Create SBT build configuration for Scala 2.12.15 + Spark 3.2.1.
+**Files Created:**
+- D:\BigData\Project_1\src\scala\build.sbt — Main build definition (Spark 3.2.1, Scala 2.12.15, sbt-assembly fat-jar config)
+- D:\BigData\Project_1\src\scala\project\plugins.sbt — Adds sbt-assembly plugin v1.2.0
+- D:\BigData\Project_1\src\scala\project\build.properties — Pins SBT launcher to v1.8.3
+**Key Design Decisions:**
+- Spark/Hadoop deps marked as provided — they are already in the cluster classpath
+- Fat JAR excludes Spark/Hadoop/scala-library — prevents version conflicts at runtime
+- MergeStrategy handles META-INF conflicts common in Spark fat-jar builds
+- Compilation will happen INSIDE the spark-master container via volume mount (no local SBT needed)
+**Errors:** None

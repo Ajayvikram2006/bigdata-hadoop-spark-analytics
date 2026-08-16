@@ -27,3 +27,11 @@
 [2026-08-16] Phase 3: docker exec namenode bash -c "hdfs dfs -put /host-project/hdfs_v2_extracted/node_logs/* /project/raw/hdfs_v2/"
 [2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/cmu
 [2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/hdfs_v2
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/*/job.csv | wc -l"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -ls /project/raw/hdfs_v2 | head -n 5"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/hdfs_v2/hadoop-hdfs-datanode-mesos-01.log | head -n 5"
+[2026-08-16] Phase 5.1: New-Item -ItemType Directory -Force -Path D:\BigData\Project_1\src\scala\project
+[2026-08-16] Phase 5.1: Created src\scala\build.sbt (Scala 2.12.15, Spark 3.2.1, sbt-assembly 1.2.0)
+[2026-08-16] Phase 5.1: Created src\scala\project\plugins.sbt
+[2026-08-16] Phase 5.1: Created src\scala\project\build.properties (sbt.version=1.8.3)
