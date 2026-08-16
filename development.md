@@ -613,3 +613,20 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 14.2 COMPLETE.
 ### Next Step: Phase 15 -- Structured Streaming Historical Replay (requires approval)
+
+## 2026-08-16 20:19 -- Phase 15 -- Step 15.1 -- Historical Log Replay (Structured Streaming)
+
+### Status: PENDING EXECUTION
+### Objective: Execute CMUHistoricalStreaming.scala to process HDFS_v2 logs as a continuous stream.
+### Why: Faculty requirement to demonstrate streaming capabilities.
+### Files Created:
+- src/scala/streaming/CMUHistoricalStreaming.scala
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly" -> Success.
+### Validation:
+- Compiled successfully. Ready for manual execution to trigger streaming console alerts.
+### Evidence:
+- Screenshot ID: SS-28 -- pending user execution
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 15.1 Ready for execution.

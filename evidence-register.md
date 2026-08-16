@@ -61,3 +61,4 @@
 | SS-24 | Phase 13 | evidence/phase13/SS-24_rf_metrics.png | Random Forest Evaluation Metrics Terminal Output | COMPLETE |
 | SS-25 | Phase 14 | evidence/phase14/SS-25_hdfs_preprocessing.png | Terminal output showing HDFS_v2 parsing | COMPLETE |
 | SS-26 | Phase 14 | evidence/phase14/SS-26_kmeans_anomalies.png | K-Means Anomaly Detection output | COMPLETE |
+| SS-28 | Phase 15 | evidence/phase15/SS-28_historical_streaming.png | Structured Streaming Console Alerts | PENDING |

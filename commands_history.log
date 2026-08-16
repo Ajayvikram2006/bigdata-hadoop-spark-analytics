@@ -69,3 +69,4 @@
 [2026-08-16 19:18] Phase 14.1: Executed HDFSLogPreprocessor on 16GB dataset -> SUCCESS. Parsed 58M records.
 [2026-08-16 20:14] Phase 14.2: Created src/scala/ml/CMUKMeansAnomaly.scala
 [2026-08-16 20:15] Phase 14.2: sbt assembly and spark-submit -> SUCCESS. Top anomalies found on namenode.
+[2026-08-16 20:19] Phase 15.1: Created and compiled src/scala/streaming/CMUHistoricalStreaming.scala
