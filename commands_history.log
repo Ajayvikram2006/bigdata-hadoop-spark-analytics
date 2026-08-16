@@ -35,3 +35,5 @@
 [2026-08-16] Phase 5.1: Created src\scala\build.sbt (Scala 2.12.15, Spark 3.2.1, sbt-assembly 1.2.0)
 [2026-08-16] Phase 5.1: Created src\scala\project\plugins.sbt
 [2026-08-16] Phase 5.1: Created src\scala\project\build.properties (sbt.version=1.8.3)
+[2026-08-16] Phase 5.2: Created src\scala\preprocessing\CMUPreprocessor.scala
+[2026-08-16] Phase 5.3: Created src\scala\preprocessing\HDFSLogPreprocessor.scala

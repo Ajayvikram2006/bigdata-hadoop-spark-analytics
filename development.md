@@ -196,3 +196,25 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - MergeStrategy handles META-INF conflicts common in Spark fat-jar builds
 - Compilation will happen INSIDE the spark-master container via volume mount (no local SBT needed)
 **Errors:** None
+
+### Phase 5.2 — CMUPreprocessor.scala
+**Status:** WRITTEN (pending compilation + run)
+**File:** D:\BigData\Project_1\src\scala\preprocessing\CMUPreprocessor.scala
+**What it does:**
+1. Reads all 20 months of job.csv from HDFS (/project/raw/cmu/*/job.csv) with explicit schema.
+2. Drops 5 leakage columns: finishTime, finMaps, finReduces, failMaps, failReduces.
+3. Filters: keeps only SUCCESS (0) and FAILED (1); excludes KILLED and OTHER.
+4. Derives 3 safe features: queueWaitSecs, totalTasks, mapToReduceRatio.
+5. Writes clean Parquet to /project/processed/cmu_jobs/ partitioned by label.
+**Errors:** None (file created only — not yet compiled or run)
+
+### Phase 5.3 — HDFSLogPreprocessor.scala
+**Status:** WRITTEN (pending compilation + run)
+**File:** D:\BigData\Project_1\src\scala\preprocessing\HDFSLogPreprocessor.scala
+**What it does:**
+1. Reads all 31 *.log files from HDFS (/project/raw/hdfs_v2/*.log).
+2. Applies regex to parse timestamp, level, component, and message fields.
+3. Filters out malformed/multi-line continuation lines.
+4. Derives node_name from source filename.
+5. Writes clean Parquet to /project/processed/hdfs_logs/ partitioned by level.
+**Errors:** None (file created only — not yet compiled or run)
