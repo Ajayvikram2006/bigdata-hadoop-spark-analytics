@@ -651,3 +651,23 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 16 COMPLETE.
 ### Next Step: Phase 17 -- Alert Generation (Scala/Python)
+
+## 2026-08-16 20:41 -- Phase 17 -- Step 17.1 -- Alert Generation Monitor
+
+### Status: COMPLETE
+### Objective: Write alert_monitor.py to parse ML metrics and generate terminal alerts.
+### Why: Fulfills the requirement for an operational alerting system for model drift, anomalies, and failure predictions.
+### Files Created:
+- src/python/alert_monitor.py
+### Files Modified: None
+### Commands Run:
+- python src/python/alert_monitor.py -> Success.
+### Validation:
+- Parsed K-Means anomalies and triggered CRITICAL ALERT for namenode metadata storms.
+- Parsed Drift Detection metrics and confirmed STABLE.
+- Simulated HIGH FAILURE RISK alert from Random Forest logic.
+### Evidence:
+- Screenshot ID: SS-30 -- required NOW (Terminal output showing Slack-style alerts)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 17 COMPLETE.
+### Next Step: Phase 18 -- Dashboard (Python / Streamlit) (requires approval)

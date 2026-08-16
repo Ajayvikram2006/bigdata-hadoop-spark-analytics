@@ -72,3 +72,5 @@
 [2026-08-16 20:19] Phase 15.1: Created and compiled src/scala/streaming/CMUHistoricalStreaming.scala
 [2026-08-16 20:36] Phase 16.1: Created src/scala/ml/CMUDriftDetection.scala
 [2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
+[2026-08-16 20:41] Phase 17.1: Created src/python/alert_monitor.py
+[2026-08-16 20:41] Phase 17.1: python alert_monitor.py -> SUCCESS. Displayed simulated Slack alerts.
