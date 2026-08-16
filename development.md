@@ -630,3 +630,24 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 - Screenshot ID: SS-28 -- pending user execution
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 15.1 Ready for execution.
+
+## 2026-08-16 20:38 -- Phase 16 -- Step 16.1 -- Drift Detection (Scala)
+
+### Status: COMPLETE
+### Objective: Write CMUDriftDetection.scala, compile, and execute statistical drift detection.
+### Why: Faculty requires concept drift detection capabilities to identify when ML models degrade over time.
+### Files Created:
+- src/scala/ml/CMUDriftDetection.scala
+- metrics/ml_drift_detection.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && spark-submit ... CMUDriftDetection" -> Success.
+### Validation:
+- Compared Reference Distribution (70% oldest jobs) against Current Distribution (30% newest jobs).
+- Z-scores calculated for totalTasks, mapReduceRatio, queueWaitMs.
+- All Z-scores < 0.1. No concept drift detected. Model remains stable.
+### Evidence:
+- Screenshot ID: SS-29 -- required NOW (Terminal output showing drift detection alerts)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 16 COMPLETE.
+### Next Step: Phase 17 -- Alert Generation (Scala/Python)

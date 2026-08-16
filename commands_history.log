@@ -70,3 +70,5 @@
 [2026-08-16 20:14] Phase 14.2: Created src/scala/ml/CMUKMeansAnomaly.scala
 [2026-08-16 20:15] Phase 14.2: sbt assembly and spark-submit -> SUCCESS. Top anomalies found on namenode.
 [2026-08-16 20:19] Phase 15.1: Created and compiled src/scala/streaming/CMUHistoricalStreaming.scala
+[2026-08-16 20:36] Phase 16.1: Created src/scala/ml/CMUDriftDetection.scala
+[2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
