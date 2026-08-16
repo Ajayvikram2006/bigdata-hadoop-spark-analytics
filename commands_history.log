@@ -76,3 +76,5 @@
 [2026-08-16 20:41] Phase 17.1: python alert_monitor.py -> SUCCESS. Displayed simulated Slack alerts.
 [2026-08-16 20:44] Phase 18.1: Created src/python/dashboard.py using Streamlit
 [2026-08-16 20:49] Phase 19.1: Created and executed src/scala/benchmarking/CMUPerformanceBenchmarker.scala
+[2026-08-16 20:53] Phase 20.1: Created src/test/scala/CMUUnitTests.scala and fixed build.sbt scoping.
+[2026-08-16 20:53] Phase 20.1: sbt test -> SUCCESS. All 3 tests passed.

@@ -713,3 +713,24 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 19 COMPLETE.
 ### Next Step: Phase 20 -- Unit Testing / QA (requires approval)
+
+## 2026-08-16 20:53 -- Phase 20 -- Step 20.1 -- Unit Testing / QA
+
+### Status: COMPLETE
+### Objective: Write and execute CMUUnitTests.scala to validate core preprocessing logic.
+### Why: Faculty requires rigorous QA testing.
+### Files Created:
+- src/scala/src/test/scala/CMUUnitTests.scala
+### Files Modified:
+- src/scala/build.sbt
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt test" -> Success.
+### Validation:
+- Test 1: HDFS Regex correctly parsed timestamp, component, and message.
+- Test 2: Timestamp conversion correctly yielded expected Unix epoch.
+- Test 3: Status labelling successfully encoded SUCCESS/FAILED and stripped KILLED.
+### Evidence:
+- Screenshot ID: SS-33 -- required NOW (Terminal output showing SBT Tests passing)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 20 COMPLETE.
+### Next Step: Phase 21 -- Cluster Shutdown and Documentation (requires approval)

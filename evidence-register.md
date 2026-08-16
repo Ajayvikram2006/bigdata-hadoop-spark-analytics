@@ -66,3 +66,4 @@
 | SS-30 | Phase 17 | evidence/phase17/SS-30_alert_monitor.png | Python operational alerts terminal output | COMPLETE |
 | SS-31 | Phase 18 | evidence/phase18/SS-31_streamlit_dashboard.png | Streamlit web UI Dashboard | COMPLETE |
 | SS-32 | Phase 19 | evidence/phase19/SS-32_benchmarking.png | Terminal output of wall-clock benchmarking | COMPLETE |
+| SS-33 | Phase 20 | evidence/phase20/SS-33_unit_tests.png | SBT ScalaTest passing results | COMPLETE |
