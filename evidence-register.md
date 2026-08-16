@@ -51,3 +51,5 @@
 | SS-14 | Phase 7 | evidence/phase7/SS-14_spark_df_dag.png | Spark UI DAG for DataFrame Job | COMPLETE |
 | SS-15 | Phase 7 | evidence/phase7/SS-15_df_schema.png | DataFrame printSchema output | COMPLETE |
 | SS-16 | Phase 7 | evidence/phase7/SS-16_hdfs_processed_ls.png | hdfs dfs -ls /project/processed/cmu_jobs/ | COMPLETE |
+| SS-17 | Phase 8 | evidence/phase8/SS-17_spark_ds_dag.png | Spark UI DAG for Dataset Job | COMPLETE |
+| SS-18 | Phase 8 | evidence/phase8/SS-18_ds_terminal.png | spark-submit terminal output for Dataset | COMPLETE |

@@ -441,3 +441,32 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 7 COMPLETE.
 ### Next Step: Phase 8 -- Spark Dataset Processing (requires approval)
+
+## 2026-08-16 18:36 -- Phase 8 -- Step 8.1 -- Write, Compile + Run Spark Dataset Job
+
+### Status: COMPLETE
+### Objective: Write CMUDatasetProcessor.scala using strongly-typed Dataset API, compile with SBT, and spark-submit to cluster.
+### Why: Faculty requires Spark Dataset API demonstration. Provides final Phase 19 timing data point (Dataset overhead vs DataFrame).
+### Files Created:
+- src/scala/dataset/CMUDatasetProcessor.scala
+- hdfs://namenode:9000/project/batch_results/dataset_output/ (Parquet output)
+- metrics/spark_ds_timing.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && cp ... && spark-submit ... CMUDatasetProcessor" -> Job completed. Exit 0.
+### Errors Encountered:
+- ERROR 1 (SEVERITY: MEDIUM): MatchError at runtime on left join when taskAgg was null.
+  Root cause: case (job: JobRecord, taskAgg: TaskAggRecord) does not match a null taskAgg reference due to isInstanceOf check.
+  Fix: Removed explicit type annotations in the pattern match -> case (job, taskAgg), allowing Tuple2 matching to succeed.
+### Validation:
+- Case classes used for strict schema enforcement.
+- Final clean records: 53,559 (Exact match with DataFrame Phase 7).
+### Timing (Phase 19 comparison):
+- Spark Dataset elapsed: 50.173 s
+- Saved to metrics/spark_ds_timing.txt
+### Evidence:
+- Screenshot ID: SS-17 -- required NOW (Spark UI DAG at localhost:4040)
+- Screenshot ID: SS-18 -- required NOW (terminal output)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 8 COMPLETE.
+### Next Step: Phase 9 -- Spark SQL Processing (requires approval)
