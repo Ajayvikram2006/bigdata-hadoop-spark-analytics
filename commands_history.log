@@ -57,3 +57,5 @@
 [2026-08-16 18:33] Phase 8.1: Created src/scala/dataset/CMUDatasetProcessor.scala
 [2026-08-16 18:34] Phase 8.1: Fixed MatchError on Left Join null case (type annotation removal).
 [2026-08-16 18:36] Phase 8.1: sbt assembly and spark-submit -> SUCCESS. Elapsed: 50.173s. Output: 53559 records.
+[2026-08-16 18:39] Phase 9.1: Created src/scala/sql/CMUSQLProcessor.scala
+[2026-08-16 18:42] Phase 9.1: sbt assembly and spark-submit -> SUCCESS. Elapsed: 111.084s. Output: 53559 records.

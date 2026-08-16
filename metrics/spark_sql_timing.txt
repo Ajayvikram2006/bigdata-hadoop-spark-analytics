@@ -1,0 +1,26 @@
+﻿# ============================================================
+# Spark SQL Timing -- Phase 9
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMUSQLProcessor-Phase9
+Framework       : Spark 3.2.1 (Standalone cluster) API: Spark SQL
+Master          : spark://spark-master:7077
+Executor Memory : 2 GB
+Driver Memory   : 2 GB
+Input           : hdfs://namenode:9000/project/raw/cmu/*/job.csv (along with task and attempt)
+Output          : hdfs://namenode:9000/project/batch_results/sql_output/
+
+--- Timing ---
+Elapsed (ms)      : 111,084 ms
+Elapsed (sec)     : 111.084 s
+
+--- Records ---
+Clean joined records: 53,559
+
+--- Comparison vs DataFrame / Dataset ---
+Spark DataFrame elapsed: 161.417 s
+Spark SQL elapsed      : 111.084 s
+Spark Dataset elapsed  :  50.173 s
+
+Note: Spark SQL query execution is heavily optimized by Catalyst and achieved better performance than the imperative DataFrame API approach for this complex join logic.

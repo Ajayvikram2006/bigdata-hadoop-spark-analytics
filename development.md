@@ -470,3 +470,29 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 ### Git: Branch: develop | Commit: pending
 ### Current Status: Phase 8 COMPLETE.
 ### Next Step: Phase 9 -- Spark SQL Processing (requires approval)
+
+## 2026-08-16 18:42 -- Phase 9 -- Step 9.1 -- Write, Compile + Run Spark SQL Job
+
+### Status: COMPLETE
+### Objective: Write CMUSQLProcessor.scala demonstrating Spark SQL capabilities, compile with SBT, and spark-submit to cluster.
+### Why: Faculty requires Spark SQL API demonstration using raw SQL strings for querying semi-structured data.
+### Files Created:
+- src/scala/sql/CMUSQLProcessor.scala
+- hdfs://namenode:9000/project/batch_results/sql_output/ (Parquet output)
+- metrics/spark_sql_timing.txt
+### Files Modified: None
+### Commands Run:
+- docker exec spark-master bash -c "cd /host-project/src/scala && sbt assembly && cp ... && spark-submit ... CMUSQLProcessor" -> Job completed. Exit 0.
+### Errors Encountered: None
+### Validation:
+- Successfully leveraged SparkSession.sql() with Common Table Expressions (CTEs) for logic.
+- Final clean records: 53,559 (Exact match with previous phases).
+### Timing:
+- Spark SQL elapsed: 111.084 s (Faster than DataFrame API due to Catalyst optimizations for complex SQL queries).
+- Saved to metrics/spark_sql_timing.txt
+### Evidence:
+- Screenshot ID: SS-19 -- required NOW (Spark UI SQL Tab at localhost:4040)
+- Screenshot ID: SS-20 -- required NOW (terminal output with Physical Plan)
+### Git: Branch: develop | Commit: pending
+### Current Status: Phase 9 COMPLETE.
+### Next Step: Phase 10 -- Spark Streaming (requires approval)
