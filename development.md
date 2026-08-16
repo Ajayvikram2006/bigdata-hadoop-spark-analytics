@@ -218,3 +218,27 @@ streaming_output/, results/, alerts/, *.parquet, *.class, *.jar, target/, .venv/
 4. Derives node_name from source filename.
 5. Writes clean Parquet to /project/processed/hdfs_logs/ partitioned by level.
 **Errors:** None (file created only — not yet compiled or run)
+
+## 2026-08-16 17:40 — Phase 4 — Step 4.2 — Schema Evidence Capture
+
+### Status: COMPLETE
+### Objective: Capture faculty evidence screenshots for Phase 4 data validation.
+### Why: Constitution Part 9 mandates SS-07 and SS-08 before Phase 5.
+### Files Created: evidence/phase4/SS-07_schema_inspection.png, evidence/phase4/SS-08_target_distribution.png
+### Files Modified: evidence-register.md, commands_history.log
+### Commands Run:
+- docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5" → Schema confirmed: 12 cols as expected. Exit 0.
+- docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | tail -n +2 | cut -d',' -f6 | sort | uniq -c | sort -rn" → SUCCESS:652, FAILED:62, KILLED:41, UNKNOWN:1
+### Errors Encountered:
+- FIRST SS-08 attempt with awk failed → awk: syntax error at or near ] → Root cause: PowerShell double-quotes consumed dollar-sign and brackets before bash. Fix: replaced awk with cut|sort|uniq. Resolved.
+### Validation:
+- Status distribution (2010-05 sample): SUCCESS 82.7%, FAILED 7.9%, KILLED 5.2% — MATCHES Phase 0 full-dataset proportions. 
+- STATUS 6 (UNKNOWN): 1 record found — will be excluded alongside KILLED in ML label construction.
+### Evidence:
+- Screenshot ID: SS-07 | Filename: evidence/phase4/SS-07_schema_inspection.png
+- Screenshot ID: SS-08 | Filename: evidence/phase4/SS-08_target_distribution.png
+### Git:
+- Branch: develop
+- Commit: pending (will commit after evidence registered)
+### Current Status: Phase 4 COMPLETE. All evidence captured.
+### Next Step: Phase 5 — Hadoop MapReduce Java Baseline

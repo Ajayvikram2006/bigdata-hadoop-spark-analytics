@@ -41,3 +41,5 @@
 | SS-04 | Phase 3 | CMU file count/size in HDFS | COMPLETE |
 | SS-05 | Phase 3 | HDFS_v2 log file size in HDFS | COMPLETE |
 | SS-06 | Phase 3 | Verification of directory structure hdfs dfs -ls /project/raw | COMPLETE |
+| SS-07 | Phase 4 | evidence/phase4/SS-07_schema_inspection.png | CMU job.csv header + 4 rows | COMPLETE |
+| SS-08 | Phase 4 | evidence/phase4/SS-08_target_distribution.png | Status distribution per column 6 | COMPLETE |
