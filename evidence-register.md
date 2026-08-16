@@ -55,3 +55,4 @@
 | SS-18 | Phase 8 | evidence/phase8/SS-18_ds_terminal.png | spark-submit terminal output for Dataset | COMPLETE |
 | SS-19 | Phase 9 | evidence/phase9/SS-19_spark_sql_ui.png | Spark UI SQL Tab | COMPLETE |
 | SS-20 | Phase 9 | evidence/phase9/SS-20_sql_explain.png | SQL Execution Plan (Explain) terminal output | COMPLETE |
+| SS-21 | Phase 10 | evidence/phase10/SS-21_spark_streaming.png | Spark Streaming Console Output | PENDING_USER_TEST |
