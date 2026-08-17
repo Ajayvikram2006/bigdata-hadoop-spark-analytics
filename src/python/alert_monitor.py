@@ -68,10 +68,11 @@ def parse_and_alert_drift():
             print(f"{GREEN}[OK] Feature '{feature}' is STABLE (Z-score: {zscore}){RESET}")
     print()
 
-def simulate_rf_failure_risk():
+def demo_simulated_rf_alert():
+    print(f"{YELLOW}--- DEMO SIMULATION (not a live model call) ---{RESET}")
     print(f"{CYAN}--- Checking Random Forest Predictive Monitor ---{RESET}")
     print(f"{YELLOW}[ALERT] HIGH FAILURE RISK PREDICTED!{RESET}")
-    print(f"  Job ID    : CMU-Job-883419")
+    print(f"  Job ID    : CMU-Job-883419 (DEMO)")
     print(f"  Metrics   : totalTasks=8500, mapReduceRatio=400.0")
     print(f"  Prediction: FAILED (Confidence: 89.2%)")
     print(f"  Action    : Auto-killing job to free cluster resources.\n")
@@ -88,6 +89,6 @@ if __name__ == '__main__':
     parse_and_alert_drift()
     
     time.sleep(1)
-    simulate_rf_failure_risk()
+    demo_simulated_rf_alert()
     
     print(f"{GREEN}--- Alert Monitoring Complete ---{RESET}\n")

@@ -67,6 +67,9 @@ lazy val root = (project in file("."))
     // NOT in the default src/main/scala/ layout. Tell SBT to look here:
     Compile / unmanagedSourceDirectories := Seq(
       baseDirectory.value / "preprocessing",
+      baseDirectory.value / "rdd",
+      baseDirectory.value / "dataframe",
+      baseDirectory.value / "dataset",
       baseDirectory.value / "sql",
       baseDirectory.value / "ml",
       baseDirectory.value / "streaming",
@@ -74,7 +77,8 @@ lazy val root = (project in file("."))
     ),
 
     // ── Test options ────────────────────────────────────────────
-    Test / unmanagedSourceDirectories += baseDirectory.value / "tests",
+    // CMUUnitTests.scala lives at src/test/scala/ (standard SBT layout inside this dir)
+    Test / unmanagedSourceDirectories += baseDirectory.value / "src" / "test" / "scala",
     Test / fork             := true,
     Test / parallelExecution := false
   )

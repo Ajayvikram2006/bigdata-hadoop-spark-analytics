@@ -108,9 +108,11 @@ object CMURandomForest {
     val multiEvaluator = new MulticlassClassificationEvaluator()
       .setLabelCol("label")
       .setPredictionCol("prediction")
-      .setMetricName("accuracy")
 
-    val accuracy = multiEvaluator.evaluate(predictions)
+    val accuracy  = multiEvaluator.setMetricName("accuracy").evaluate(predictions)
+    val precision = multiEvaluator.setMetricName("weightedPrecision").evaluate(predictions)
+    val recall    = multiEvaluator.setMetricName("weightedRecall").evaluate(predictions)
+    val f1        = multiEvaluator.setMetricName("f1").evaluate(predictions)
 
     val binaryEvaluator = new BinaryClassificationEvaluator()
       .setLabelCol("label")
@@ -119,11 +121,40 @@ object CMURandomForest {
       
     val auc = binaryEvaluator.evaluate(predictions)
 
+    // =========================================================
+    // CONFUSION MATRIX — most important for imbalanced datasets
+    // label=0: SUCCESS, label=1: FAILED
+    // =========================================================
+    val tp = predictions.filter("label = 1.0 AND prediction = 1.0").count()
+    val tn = predictions.filter("label = 0.0 AND prediction = 0.0").count()
+    val fp = predictions.filter("label = 0.0 AND prediction = 1.0").count()
+    val fn = predictions.filter("label = 1.0 AND prediction = 0.0").count()
+
+    // Per-class metrics for FAILED class (label=1) — the critical minority class
+    val failedPrecision = if (tp + fp > 0) tp.toDouble / (tp + fp).toDouble else 0.0
+    val failedRecall    = if (tp + fn > 0) tp.toDouble / (tp + fn).toDouble else 0.0
+    val failedF1        = if (failedPrecision + failedRecall > 0)
+                            2 * failedPrecision * failedRecall / (failedPrecision + failedRecall)
+                          else 0.0
+
     println("\n" + "=" * 65)
     println("EVALUATION RESULTS -- Random Forest (Phase 13)")
     println("=" * 65)
-    println(f"  Accuracy       : $accuracy%.4f")
-    println(f"  Area Under ROC : $auc%.4f")
+    println(f"  Accuracy           : $accuracy%.4f")
+    println(f"  Weighted Precision : $precision%.4f")
+    println(f"  Weighted Recall    : $recall%.4f")
+    println(f"  Weighted F1-Score  : $f1%.4f")
+    println(f"  Area Under ROC     : $auc%.4f")
+    println("=" * 65)
+    println("  CONFUSION MATRIX (label=0: SUCCESS, label=1: FAILED)")
+    println(f"    True  Positives (TP, FAILED caught)    : $tp")
+    println(f"    True  Negatives (TN, SUCCESS caught)   : $tn")
+    println(f"    False Positives (FP, SUCCESS → FAILED) : $fp")
+    println(f"    False Negatives (FN, FAILED → SUCCESS) : $fn")
+    println("  FAILED-class (label=1) specific metrics:")
+    println(f"    Precision (FAILED): $failedPrecision%.4f")
+    println(f"    Recall    (FAILED): $failedRecall%.4f  ← most important for imbalance")
+    println(f"    F1-Score  (FAILED): $failedF1%.4f")
     println("=" * 65)
     println("Record this in: metrics/ml_rf_evaluation.txt")
     
@@ -132,6 +163,20 @@ object CMURandomForest {
     featureCols.zip(importances).sortBy(-_._2).foreach { case (feature, importance) =>
       println(f"  $feature%-20s: $importance%.6f")
     }
+
+    // =========================================================
+    // STEP 6: PERSIST MODEL TO HDFS
+    // =========================================================
+    val MODEL_SAVE_PATH = "hdfs://namenode:9000/project/models/random_forest"
+    println(s"\n[INFO] Saving Random Forest model to: $MODEL_SAVE_PATH")
+    rfModel.write.overwrite().save(MODEL_SAVE_PATH)
+    println("[INFO] Model saved successfully.")
+
+    // Verify: reload the model and make a test prediction
+    println("[INFO] Verifying model reload...")
+    val reloadedRF = org.apache.spark.ml.classification.RandomForestClassificationModel.load(MODEL_SAVE_PATH)
+    val samplePred = reloadedRF.transform(testData.limit(1))
+    println(s"[INFO] Reload verification PASSED — reloaded model can make predictions.")
 
     spark.stop()
   }

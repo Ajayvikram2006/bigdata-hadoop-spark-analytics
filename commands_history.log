@@ -1,4 +1,4 @@
-﻿# commands_history.log
+# commands_history.log
 # Project: Distributed Hadoop Cluster Failure Prediction and Log Intelligence Platform
 # Rule: Append every command run with timestamp and one-line result summary.
 # Format: [YYYY-MM-DD HH:MM] PHASE STEP | COMMAND | RESULT
@@ -72,6 +72,7 @@
 [2026-08-16 20:19] Phase 15.1: Created and compiled src/scala/streaming/CMUHistoricalStreaming.scala
 [2026-08-16 20:36] Phase 16.1: Created src/scala/ml/CMUDriftDetection.scala
 [2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
+[2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
 [2026-08-16 20:41] Phase 17.1: Created src/python/alert_monitor.py
 [2026-08-16 20:41] Phase 17.1: python alert_monitor.py -> SUCCESS. Displayed simulated Slack alerts.
 [2026-08-16 20:44] Phase 18.1: Created src/python/dashboard.py using Streamlit
@@ -79,3 +80,10 @@
 [2026-08-16 20:53] Phase 20.1: Created src/test/scala/CMUUnitTests.scala and fixed build.sbt scoping.
 [2026-08-16 20:53] Phase 20.1: sbt test -> SUCCESS. All 3 tests passed.
 [2026-08-16 20:55] Phase 21.1: Final documentation updated. Project successfully completed.
+[2026-08-17 11:47] Phase R2.1: Fixed src/scala/build.sbt source directories (added rdd, dataframe, dataset, test dirs).
+[2026-08-17 11:48] Phase R2.2: docker exec spark-master /opt/sbt/bin/sbt clean compile test assembly -> SUCCESS. 13 sources compiled, 3/3 tests passed, JAR deployed (107K). Exit 0.
+[2026-08-17 11:49] Phase R4.1: docker exec spark-master spark-submit CMULogisticRegression -> SUCCESS. Accuracy: 91.53%, AUC: 0.6871, FAILED Recall: 0.90%, Persisted to /project/models/logistic_regression. Exit 0.
+[2026-08-17 11:50] Phase R4.2: docker exec spark-master spark-submit CMURandomForest -> SUCCESS. Accuracy: 92.28%, AUC: 0.8947, FAILED Recall: 19.30% (21.4x over LR), Precision: 61.73%, Persisted to /project/models/random_forest. Exit 0.
+[2026-08-17 11:51] Phase R1.2: docker exec spark-master spark-submit CMUHistoricalStreaming -> SUCCESS. Captured 4 micro-batches to evidence/phase15/SS-28_historical_streaming_output.txt.
+[2026-08-17 12:28] Phase R3.1: Corrected scripts/run_pipeline.sh & created scripts/run_pipeline.ps1. Executed full batch pipeline end-to-end -> SUCCESS. Exit 0.
+[2026-08-17 14:10] Phase R5.1: Regenerated docs/DOCKER_VIVA_RUNBOOK.md and docs/PROJECT_AUDIT.md. Overall project health updated to GREEN. Exit 0.

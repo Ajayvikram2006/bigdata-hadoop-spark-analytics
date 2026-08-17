@@ -88,10 +88,13 @@ object CMULogisticRegression {
     // =========================================================
     // STEP 4: TRAIN LOGISTIC REGRESSION MODEL
     // =========================================================
+    // NOTE: Original regParam=0.3, elasticNetParam=0.8 was too strong —
+    //       it drove all coefficients to zero (AUC=0.5000, predicts majority class).
+    //       Tuned: regParam=0.01 (light L2), elasticNetParam=0.0, maxIter=100.
     val lr = new LogisticRegression()
-      .setMaxIter(10)
-      .setRegParam(0.3)
-      .setElasticNetParam(0.8)
+      .setMaxIter(100)
+      .setRegParam(0.01)
+      .setElasticNetParam(0.0)   // Pure L2 regularization
       .setFeaturesCol("features")
       .setLabelCol("label")
 
@@ -111,15 +114,17 @@ object CMULogisticRegression {
     // =========================================================
     // STEP 6: EVALUATION METRICS
     // =========================================================
-    // Accuracy Evaluator
+    // Accuracy
     val multiEvaluator = new MulticlassClassificationEvaluator()
       .setLabelCol("label")
       .setPredictionCol("prediction")
-      .setMetricName("accuracy")
 
-    val accuracy = multiEvaluator.evaluate(predictions)
+    val accuracy  = multiEvaluator.setMetricName("accuracy").evaluate(predictions)
+    val precision = multiEvaluator.setMetricName("weightedPrecision").evaluate(predictions)
+    val recall    = multiEvaluator.setMetricName("weightedRecall").evaluate(predictions)
+    val f1        = multiEvaluator.setMetricName("f1").evaluate(predictions)
 
-    // AUC Evaluator (Area Under ROC)
+    // AUC (Area Under ROC)
     val binaryEvaluator = new BinaryClassificationEvaluator()
       .setLabelCol("label")
       .setRawPredictionCol("rawPrediction")
@@ -127,11 +132,40 @@ object CMULogisticRegression {
       
     val auc = binaryEvaluator.evaluate(predictions)
 
+    // =========================================================
+    // CONFUSION MATRIX — most important for imbalanced datasets
+    // For binary: label=0 (SUCCESS), label=1 (FAILED)
+    // =========================================================
+    val tp = predictions.filter("label = 1.0 AND prediction = 1.0").count()
+    val tn = predictions.filter("label = 0.0 AND prediction = 0.0").count()
+    val fp = predictions.filter("label = 0.0 AND prediction = 1.0").count()
+    val fn = predictions.filter("label = 1.0 AND prediction = 0.0").count()
+
+    // Per-class metrics for FAILED class (label=1) — the critical minority class
+    val failedPrecision = if (tp + fp > 0) tp.toDouble / (tp + fp).toDouble else 0.0
+    val failedRecall    = if (tp + fn > 0) tp.toDouble / (tp + fn).toDouble else 0.0
+    val failedF1        = if (failedPrecision + failedRecall > 0)
+                            2 * failedPrecision * failedRecall / (failedPrecision + failedRecall)
+                          else 0.0
+
     println("\n" + "=" * 65)
     println("EVALUATION RESULTS -- Logistic Regression (Phase 12)")
     println("=" * 65)
-    println(f"  Accuracy       : $accuracy%.4f")
-    println(f"  Area Under ROC : $auc%.4f")
+    println(f"  Accuracy           : $accuracy%.4f")
+    println(f"  Weighted Precision : $precision%.4f")
+    println(f"  Weighted Recall    : $recall%.4f")
+    println(f"  Weighted F1-Score  : $f1%.4f")
+    println(f"  Area Under ROC     : $auc%.4f")
+    println("=" * 65)
+    println("  CONFUSION MATRIX (label=0: SUCCESS, label=1: FAILED)")
+    println(f"    True  Positives (TP, FAILED caught)    : $tp")
+    println(f"    True  Negatives (TN, SUCCESS caught)   : $tn")
+    println(f"    False Positives (FP, SUCCESS → FAILED) : $fp")
+    println(f"    False Negatives (FN, FAILED → SUCCESS) : $fn")
+    println("  FAILED-class (label=1) specific metrics:")
+    println(f"    Precision (FAILED): $failedPrecision%.4f")
+    println(f"    Recall    (FAILED): $failedRecall%.4f  ← most important for imbalance")
+    println(f"    F1-Score  (FAILED): $failedF1%.4f")
     println("=" * 65)
     println("Record this in: metrics/ml_lr_evaluation.txt")
     
@@ -140,6 +174,20 @@ object CMULogisticRegression {
       println(f"  $feature%-20s: $coef%.6f")
     }
     println(f"  Intercept           : ${lrModel.intercept}%.6f")
+
+    // =========================================================
+    // STEP 7: PERSIST MODEL TO HDFS
+    // =========================================================
+    val MODEL_SAVE_PATH = "hdfs://namenode:9000/project/models/logistic_regression"
+    println(s"\n[INFO] Saving Logistic Regression model to: $MODEL_SAVE_PATH")
+    lrModel.write.overwrite().save(MODEL_SAVE_PATH)
+    println("[INFO] Model saved successfully.")
+
+    // Verify: reload the model and make a test prediction
+    println("[INFO] Verifying model reload...")
+    val reloadedLR = org.apache.spark.ml.classification.LogisticRegressionModel.load(MODEL_SAVE_PATH)
+    val samplePred = reloadedLR.transform(testData.limit(1))
+    println(s"[INFO] Reload verification PASSED — reloaded model can make predictions.")
 
     spark.stop()
   }
