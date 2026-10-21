@@ -1,0 +1,105 @@
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+26/10/21 09:31:37 INFO SparkContext: Running Spark version 3.2.1
+26/10/21 09:31:37 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/21 09:31:37 INFO ResourceUtils: ==============================================================
+26/10/21 09:31:37 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/21 09:31:37 INFO ResourceUtils: ==============================================================
+26/10/21 09:31:37 INFO SparkContext: Submitted application: HDFSLogPreprocessor-Phase5.3
+26/10/21 09:31:37 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 2048, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/21 09:31:37 INFO ResourceProfile: Limiting resource is cpu
+26/10/21 09:31:37 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/21 09:31:37 INFO SecurityManager: Changing view acls to: root
+26/10/21 09:31:37 INFO SecurityManager: Changing modify acls to: root
+26/10/21 09:31:37 INFO SecurityManager: Changing view acls groups to: 
+26/10/21 09:31:37 INFO SecurityManager: Changing modify acls groups to: 
+26/10/21 09:31:37 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/10/21 09:31:38 INFO Utils: Successfully started service 'sparkDriver' on port 36663.
+26/10/21 09:31:38 INFO SparkEnv: Registering MapOutputTracker
+26/10/21 09:31:38 INFO SparkEnv: Registering BlockManagerMaster
+26/10/21 09:31:38 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/21 09:31:38 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/21 09:31:38 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/21 09:31:38 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-5e4cdf28-6477-46ab-9e51-e30f45b8d8c0
+26/10/21 09:31:38 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+26/10/21 09:31:38 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/21 09:31:38 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+26/10/21 09:31:38 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+26/10/21 09:31:38 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://spark-master:4041
+26/10/21 09:31:38 INFO SparkContext: Added JAR file:/tmp/bigdata-stage.jar at spark://spark-master:36663/jars/bigdata-stage.jar with timestamp 1792575097670
+26/10/21 09:31:38 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/10/21 09:31:38 INFO TransportClientFactory: Successfully created connection to spark-master/172.18.0.5:7077 after 21 ms (0 ms spent in bootstraps)
+26/10/21 09:31:38 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261021093138-0006
+26/10/21 09:31:38 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261021093138-0006/0 on worker-20261021092718-172.18.0.6-44175 (172.18.0.6:44175) with 2 core(s)
+26/10/21 09:31:38 INFO StandaloneSchedulerBackend: Granted executor ID app-20261021093138-0006/0 on hostPort 172.18.0.6:44175 with 2 core(s), 2.0 GiB RAM
+26/10/21 09:31:38 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 32981.
+26/10/21 09:31:38 INFO NettyBlockTransferService: Server created on spark-master:32981
+26/10/21 09:31:38 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/21 09:31:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 32981, None)
+26/10/21 09:31:38 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:32981 with 366.3 MiB RAM, BlockManagerId(driver, spark-master, 32981, None)
+26/10/21 09:31:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 32981, None)
+26/10/21 09:31:38 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 32981, None)
+26/10/21 09:31:38 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261021093138-0006/0 is now RUNNING
+26/10/21 09:31:38 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+======================================================================
+HDFSLogPreprocessor — Phase 5.3 — Starting
+Input  : hdfs://namenode:9000/project/raw/hdfs_v2/*.log
+Output : hdfs://namenode:9000/project/processed/hdfs_logs
+======================================================================
+
+[INFO] Writing Parquet to: hdfs://namenode:9000/project/processed/hdfs_logs
+
+[INFO] Parsed log records: 58095613
+
+[INFO] Log level distribution:
++-----+--------+
+|level|   count|
++-----+--------+
+| INFO|57570608|
+| WARN|  500971|
+|ERROR|   24030|
+|FATAL|       4|
++-----+--------+
+
+
+[INFO] Log entries per node:
++-----------------+--------+
+|        node_name|   count|
++-----------------+--------+
+|         namenode|16885078|
+|         mesos-01| 2611376|
+|         mesos-18| 1595300|
+|         mesos-19| 1562876|
+|         mesos-17| 1556161|
+|         mesos-03| 1545331|
+|         mesos-07| 1535079|
+|         mesos-22| 1522254|
+|         mesos-21| 1521224|
+|         mesos-23| 1518872|
+|         mesos-20| 1487650|
+|         mesos-28| 1475890|
+|         mesos-08| 1470915|
+|         mesos-13| 1466203|
+|         mesos-26| 1459625|
+|         mesos-27| 1453317|
+|         mesos-09| 1447018|
+|         mesos-25| 1426734|
+|         mesos-02| 1414225|
+|         mesos-06| 1407787|
+|         mesos-29| 1380145|
+|         mesos-10| 1368024|
+|         mesos-14| 1301602|
+|         mesos-05| 1293787|
+|         mesos-11| 1260152|
+|         mesos-31| 1211606|
+|         mesos-30| 1205442|
+|         mesos-15| 1184961|
+|         mesos-16| 1048020|
+|secondarynamenode|  289905|
+|         mesos-32|  189054|
++-----------------+--------+
+
+
+[SUCCESS] HDFSLogPreprocessor complete.
+[SUCCESS] Output written to: hdfs://namenode:9000/project/processed/hdfs_logs
+[SUCCESS] Total parsed records: 58095613
+======================================================================

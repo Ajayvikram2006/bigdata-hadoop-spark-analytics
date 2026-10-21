@@ -1,0 +1,39 @@
+
+[96m======================================================[0m
+[96m   DISTRIBUTED ANALYTICS ALERT MONITOR DASHBOARD      [0m
+[96m======================================================[0m
+
+[96m--- Checking HDFS Anomaly Detection (K-Means) ---[0m
+[91m[CRITICAL ALERT] HDFS ANOMALOUS BEHAVIOR DETECTED![0m
+  Time  : 2016-11-18 16:25:00
+  Node  : namenode
+  Score : 7584.49 (High distance from centroid)
+  Desc  : Massive metadata storm detected (108,385 events in 5m window)
+
+[91m[CRITICAL ALERT] HDFS ANOMALOUS BEHAVIOR DETECTED![0m
+  Time  : 2016-10-22 14:25:00
+  Node  : namenode
+  Score : 4658.94 (High distance from centroid)
+  Desc  : Massive metadata storm detected (85,297 events in 5m window)
+
+[91m[CRITICAL ALERT] HDFS ANOMALOUS BEHAVIOR DETECTED![0m
+  Time  : 2016-10-23 05:40:00
+  Node  : namenode
+  Score : 3956.76 (High distance from centroid)
+  Desc  : Massive metadata storm detected (78,673 events in 5m window)
+
+[96m--- Checking Model Drift Monitor ---[0m
+[92m[OK] Feature 'totalTasks' is STABLE (Z-score: 0.08)[0m
+[92m[OK] Feature 'mapReduceRatio' is STABLE (Z-score: 0.07)[0m
+[92m[OK] Feature 'queueWaitMs' is STABLE (Z-score: 0.01)[0m
+
+[93m--- DEMO SIMULATION (not a live model call) ---[0m
+[96m--- Checking Random Forest Predictive Monitor ---[0m
+[93m[ALERT] HIGH FAILURE RISK PREDICTED![0m
+  Job ID    : CMU-Job-883419 (DEMO)
+  Metrics   : totalTasks=8500, mapReduceRatio=400.0
+  Prediction: FAILED (Confidence: 89.2%)
+  Action    : Auto-killing job to free cluster resources.
+
+[92m--- Alert Monitoring Complete ---[0m
+

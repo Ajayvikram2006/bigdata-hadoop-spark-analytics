@@ -1,18 +1,18 @@
 ﻿# ============================================================
 # RAW DATA — NEVER COMMIT (immutable, too large for Git)
 # ============================================================
-cmu_opencloud/
-hdfs_v2/
-hdfs_v2_extracted/
+data/raw/cmu_opencloud/
+data/raw/hdfs_v2/
+data/raw/hdfs_v2_extracted/
 
 # ============================================================
 # LARGE OUTPUT FILES (regeneratable)
 # ============================================================
-models/
-predictions/
-streaming_output/
-results/
-alerts/
+data/local_outputs/models/
+data/local_outputs/predictions/
+data/local_outputs/streaming_output/
+data/local_outputs/results/
+data/local_outputs/alerts/
 *.parquet
 *.orc
 *.avro
@@ -74,3 +74,23 @@ desktop.ini
 !scripts/**
 src/scala/target/
 src/scala/project/target/
+
+# large / generated
+data/raw/
+data/local_outputs/
+archive/
+**/target/
+*.jar
+*.vhdx
+*.log
+__pycache__/
+.venv/
+
+# --- GitHub readiness (added) ---
+# IDE/tooling caches containing local absolute paths
+.metals-scala-cli/
+.scala-build/
+**/.metals-scala-cli/
+# keep run logs and the command history (small, part of the evidence)
+!evidence/*.log
+!docs/history/commands_history.log

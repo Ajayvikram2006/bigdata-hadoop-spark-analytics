@@ -14,6 +14,9 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+// VIVA NOTES - MapReduce Driver
+// * Configures and submits the job: input /project/raw/cmu/*/job.csv, output /project/mapreduce_output/job_status_counts (args override). WARNING: the code DELETES the output directory if it already exists (fs.delete) - pass a NEW output path to keep existing results.
+// * Run: docker exec namenode hadoop jar /opt/hadoop-apps/job-status-mr.jar edu.project1.mapreduce.JobStatusDriver [input] [output]  (docs/RUNBOOK.md section E1).
 /**
  * JobStatusDriver â€” Phase 5 (MapReduce Baseline)
  *

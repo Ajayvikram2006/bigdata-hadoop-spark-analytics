@@ -1,3 +1,5 @@
+# VIVA NOTES - Alert monitor: parses the saved metrics files and prints terminal alerts (anomaly score > 3000 = CRITICAL, drift z > 1.0 = WARNING).
+# Run: python src/python/alert_monitor.py   (docs/RUNBOOK.md section E11). Exit code 0 = ran to completion.
 import time
 import os
 import re

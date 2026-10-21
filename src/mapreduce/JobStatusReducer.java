@@ -6,6 +6,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
+// VIVA NOTES - MapReduce Reducer
+// * After the shuffle/sort, all 1s for one label arrive together; the reducer sums them. Because summing is associative it is also reused as the COMBINER
+//   (a map-side mini-reduce that cuts shuffle traffic).
 /**
  * JobStatusReducer — Phase 5 (MapReduce Baseline)
  *

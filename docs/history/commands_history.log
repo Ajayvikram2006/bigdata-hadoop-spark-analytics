@@ -1,0 +1,99 @@
+# commands_history.log
+# Project: Distributed Hadoop Cluster Failure Prediction and Log Intelligence Platform
+# Rule: Append every command run with timestamp and one-line result summary.
+# Format: [YYYY-MM-DD HH:MM] PHASE STEP | COMMAND | RESULT
+
+[2026-08-16 13:06] P0 S0.1 | systeminfo | findstr OS Memory | OK — Win11 16GB
+[2026-08-16 13:06] P0 S0.1 | Get-CimInstance Win32_Processor | OK — i7-13650HX 14C/20L
+[2026-08-16 13:06] P0 S0.1 | Get-PSDrive C,D,E | OK — C:69GB D:150GB E:294GB free
+[2026-08-16 13:06] P0 S0.1 | docker/git/java/python --version | OK — all installed
+[2026-08-16 13:07] P0 S0.1 | scala -version | FAIL — not installed locally (expected)
+[2026-08-16 13:07] P0 S0.1 | sbt sbtVersion | FAIL — not installed locally (expected)
+[2026-08-16 13:09] P0 S0.2 | Get-ChildItem cmu_opencloud -Recurse | OK — 20 months 22.025GB
+[2026-08-16 13:09] P0 S0.2 | Get-ChildItem hdfs_v2_extracted\node_logs | OK — 31 files 16.06GB
+[2026-08-16 13:10] P0 S0.3 | Get-Content job.csv -TotalCount 4 | OK — 12 columns confirmed
+[2026-08-16 13:10] P0 S0.3 | Count job status distribution | OK — 55252 total 8.21% failure
+[2026-08-16 13:10] P0 S0.3 | Get-Content counter.csv -TotalCount 3 | OK — integer-encoded keys
+[2026-08-16 13:10] P0 S0.3 | Get-Content attempt.csv -TotalCount 3 | OK — retry data present
+[2026-08-16 13:10] P0 S0.3 | Get-Content namenode.log -TotalCount 5 | OK — multi-line format found
+[2026-08-16 13:10] P0 S0.3 | Get-Content datanode.log -TotalCount 5 | OK — STARTUP_MSG multi-line
+[2026-08-16 13:14] P0 S0.5 | Get-ChildItem E:\Docker -Filter *.vhdx | OK — disks on E: confirmed
+[2026-08-16 13:16] P0 S0.6 | Set-Content .wslconfig | OK — 10GB/8core/4GB swap written
+[2026-08-16] Phase 2: docker-compose up -d
+[2026-08-16] Phase 2: docker exec namenode hdfs dfsadmin -report
+[2026-08-16] Phase 2: docker exec namenode hdfs dfs -mkdir -p /project/raw/cmu /project/raw/hdfs_v2 /project/processed /project/features /project/models /project/predictions /project/mapreduce_output /project/batch_results /project/streaming_output /project/alerts /project/backups
+[2026-08-16] Phase 2: docker exec namenode hdfs dfs -setrep -R 2 /project
+[2026-08-16] Phase 3: docker exec namenode bash -c "hdfs dfs -put /host-project/cmu_opencloud/20* /project/raw/cmu/"
+[2026-08-16] Phase 3: docker exec namenode bash -c "hdfs dfs -put /host-project/hdfs_v2_extracted/node_logs/* /project/raw/hdfs_v2/"
+[2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/cmu
+[2026-08-16] Phase 3: docker exec namenode hdfs dfs -du -s -h /project/raw/hdfs_v2
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/*/job.csv | wc -l"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -ls /project/raw/hdfs_v2 | head -n 5"
+[2026-08-16] Phase 4.1: docker exec namenode bash -c "hdfs dfs -cat /project/raw/hdfs_v2/hadoop-hdfs-datanode-mesos-01.log | head -n 5"
+[2026-08-16] Phase 5.1: New-Item -ItemType Directory -Force -Path D:\BigData\Project_1\src\scala\project
+[2026-08-16] Phase 5.1: Created src\scala\build.sbt (Scala 2.12.15, Spark 3.2.1, sbt-assembly 1.2.0)
+[2026-08-16] Phase 5.1: Created src\scala\project\plugins.sbt
+[2026-08-16] Phase 5.1: Created src\scala\project\build.properties (sbt.version=1.8.3)
+[2026-08-16] Phase 5.2: Created src\scala\preprocessing\CMUPreprocessor.scala
+[2026-08-16] Phase 5.3: Created src\scala\preprocessing\HDFSLogPreprocessor.scala
+[2026-08-16 17:38] Phase 4.2 SS-07: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | head -n 5" → Schema confirmed 12 cols. Exit 0.
+[2026-08-16 17:38] Phase 4.2 SS-08 FAIL: awk -F',' NR>1 syntax error → PowerShell escaping issue with dollar and brackets
+[2026-08-16 17:40] Phase 4.2 SS-08 FIX: docker exec namenode bash -c "hdfs dfs -cat /project/raw/cmu/2010-05/job.csv | tail -n +2 | cut -d',' -f6 | sort | uniq -c | sort -rn" → SUCCESS:652, FAILED:62, KILLED:41, UNKNOWN:1. Exit 0.
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusMapper.java
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusReducer.java
+[2026-08-16 17:43] Phase 5.1: Created src/mapreduce/JobStatusDriver.java
+[2026-08-16 17:44] Phase 5.2: docker exec namenode bash -c "java -version && hadoop version" -> OpenJDK 1.8.0_232, Hadoop 3.2.1. Exit 0.
+[2026-08-16 17:45] Phase 5.2: javac -classpath (hadoop classpath) FAIL: PowerShell interception. Fixed via docker cp + sed -i BOM removal.
+[2026-08-16 17:48] Phase 5.2: docker exec namenode bash /tmp/build_mr.sh -> BUILD_SUCCESS. JAR: /opt/hadoop-apps/job-status-mr.jar (5.5K). Exit 0.
+[2026-08-16 17:50] Phase 5.3: docker exec namenode bash -c "time hadoop jar /opt/hadoop-apps/job-status-mr.jar edu.project1.mapreduce.JobStatusDriver" -> Job completed. Map=20, Reduce=1. SUCCESS:49026 FAILED:4534 KILLED:1666 UNKNOWN:26. Elapsed:3598ms. Exit 0.
+[2026-08-16 17:50] Phase 5.3: docker exec namenode bash -c "hdfs dfs -cat /project/mapreduce_output/job_status_counts/part-r-00000" -> FAILED 4534 / KILLED 1666 / SUCCESS 49026 / UNKNOWN_6 26. Exit 0.
+[2026-08-16 17:55] Phase 6.1: Created src/scala/rdd/RDDJobParser.scala (RDD: textFile, filter, flatMap, map, reduceByKey, sortBy, coalesce, saveAsTextFile)
+[2026-08-16 17:57] Phase 6.2: docker exec spark-master curl sbt-1.8.3.tgz + tar extract -> SBT_EXTRACTED. Exit 0.
+[2026-08-16 18:05] Phase 6.2: sbt clean assembly (with source dir fix) -> [success] 26s, 3 sources compiled. Exit 0.
+[2026-08-16 18:09] Phase 6.2: /spark/bin/spark-submit RDDJobParser -> SUCCESS:49026 FAILED:4534 KILLED:1666, elapsed:7190ms. Exit 0.
+[2026-08-16 18:16] Phase 7.1: Created src/scala/dataframe/CMUDataFrameProcessor.scala
+[2026-08-16 18:20] Phase 7.2: docker exec spark-master bash -c "/spark/bin/spark-submit ... CMUDataFrameProcessor" -> SUCCESS. Elapsed: 161.417s.
+[2026-08-16 18:33] Phase 8.1: Created src/scala/dataset/CMUDatasetProcessor.scala
+[2026-08-16 18:34] Phase 8.1: Fixed MatchError on Left Join null case (type annotation removal).
+[2026-08-16 18:36] Phase 8.1: sbt assembly and spark-submit -> SUCCESS. Elapsed: 50.173s. Output: 53559 records.
+[2026-08-16 18:39] Phase 9.1: Created src/scala/sql/CMUSQLProcessor.scala
+[2026-08-16 18:42] Phase 9.1: sbt assembly and spark-submit -> SUCCESS. Elapsed: 111.084s. Output: 53559 records.
+[2026-08-16 18:46] Phase 10.1: Created src/scala/streaming/CMUStreamingJob.scala
+[2026-08-16 18:48] Phase 10.1: sbt assembly -> SUCCESS.
+[2026-08-16 18:50] Phase 11.1: Created scripts/run_pipeline.sh
+[2026-08-16 19:10] Phase 12.1: Created src/scala/ml/CMULogisticRegression.scala
+[2026-08-16 19:11] Phase 12.1: sbt assembly and spark-submit -> SUCCESS. Acc: 91.67%, AUC: 0.50.
+[2026-08-16 19:13] Phase 13.1: Created src/scala/ml/CMURandomForest.scala
+[2026-08-16 19:14] Phase 13.1: sbt assembly and spark-submit -> SUCCESS. Acc: 92.28%, AUC: 0.8947.
+[2026-08-16 19:18] Phase 14.1: Executed HDFSLogPreprocessor on 16GB dataset -> SUCCESS. Parsed 58M records.
+[2026-08-16 20:14] Phase 14.2: Created src/scala/ml/CMUKMeansAnomaly.scala
+[2026-08-16 20:15] Phase 14.2: sbt assembly and spark-submit -> SUCCESS. Top anomalies found on namenode.
+[2026-08-16 20:19] Phase 15.1: Created and compiled src/scala/streaming/CMUHistoricalStreaming.scala
+[2026-08-16 20:36] Phase 16.1: Created src/scala/ml/CMUDriftDetection.scala
+[2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
+[2026-08-16 20:38] Phase 16.1: sbt assembly and spark-submit -> SUCCESS. No drift detected.
+[2026-08-16 20:41] Phase 17.1: Created src/python/alert_monitor.py
+[2026-08-16 20:41] Phase 17.1: python alert_monitor.py -> SUCCESS. Displayed simulated Slack alerts.
+[2026-08-16 20:44] Phase 18.1: Created src/python/dashboard.py using Streamlit
+[2026-08-16 20:49] Phase 19.1: Created and executed src/scala/benchmarking/CMUPerformanceBenchmarker.scala
+[2026-08-16 20:53] Phase 20.1: Created src/test/scala/CMUUnitTests.scala and fixed build.sbt scoping.
+[2026-08-16 20:53] Phase 20.1: sbt test -> SUCCESS. All 3 tests passed.
+[2026-08-16 20:55] Phase 21.1: Final documentation updated. Project successfully completed.
+[2026-08-17 11:47] Phase R2.1: Fixed src/scala/build.sbt source directories (added rdd, dataframe, dataset, test dirs).
+[2026-08-17 11:48] Phase R2.2: docker exec spark-master /opt/sbt/bin/sbt clean compile test assembly -> SUCCESS. 13 sources compiled, 3/3 tests passed, JAR deployed (107K). Exit 0.
+[2026-08-17 11:49] Phase R4.1: docker exec spark-master spark-submit CMULogisticRegression -> SUCCESS. Accuracy: 91.53%, AUC: 0.6871, FAILED Recall: 0.90%, Persisted to /project/models/logistic_regression. Exit 0.
+[2026-08-17 11:50] Phase R4.2: docker exec spark-master spark-submit CMURandomForest -> SUCCESS. Accuracy: 92.28%, AUC: 0.8947, FAILED Recall: 19.30% (21.4x over LR), Precision: 61.73%, Persisted to /project/models/random_forest. Exit 0.
+[2026-08-17 11:51] Phase R1.2: docker exec spark-master spark-submit CMUHistoricalStreaming -> SUCCESS. Captured 4 micro-batches to evidence/phase15/SS-28_historical_streaming_output.txt.
+[2026-08-17 12:28] Phase R3.1: Corrected scripts/run_pipeline.sh & created scripts/run_pipeline.ps1. Executed full batch pipeline end-to-end -> SUCCESS. Exit 0.
+[2026-08-17 14:10] Phase R5.1: Regenerated docs/DOCKER_VIVA_RUNBOOK.md and docs/PROJECT_AUDIT.md. Overall project health updated to GREEN. Exit 0.
+[2026-10-20 23:11] Phase R2.1: Created timestamped backups (*.bak_20261020_231100) for scripts/run_pipeline.ps1, scripts/run_pipeline.sh, docker/docker-compose.yml, development.md, and commands_history.log. Exit 0.
+[2026-10-20 23:12] Phase R2.2: Disabled destructive wildcard HDFS cleanup commands (hdfs dfs -rm -r -f /project/batch_results/*, /project/mapreduce_output/*, /project/processed/*, /project/models/*) in scripts/run_pipeline.ps1 and scripts/run_pipeline.sh. Pipeline scripts were NOT executed. Verified with Select-String and git diff --check. Exit 0.
+[2026-10-20 23:12] Phase R2.3: Updated docker/docker-compose.yml spark-master service with hostname: spark-master, SPARK_MASTER_HOST=spark-master, and port 4040:4040. Validated syntax via docker-compose config --services. Host container recreation (docker-compose up -d --force-recreate spark-master spark-worker) pending user execution on Windows host. Exit 0.
+[2026-10-20 23:25] Phase R3.1: Verified live TCP ports (9870, 9000, 8080, 7077, 8081, 4040, 27017 ALL OPEN) and WebHDFS recursive replication audit (152 files rep=2 [412 blocks], 29 Spark files rep=3 [29 blocks] -> 441 total blocks, explaining 29 under-replicated blocks on 2 DataNodes). Captured SS-045. Exit 0.
+[2026-10-20 23:28] Phase R3.2: Captured live post-repair Spark Master UI (http://localhost:8080 -> SS-046, SS-049) and Spark Worker UI (http://localhost:8081 -> SS-047, SS-048 executor stderr proving Driver commanded shutdown -> RECEIVED SIGNAL TERM). Exit 0.
+[2026-10-20 23:43] Phase R3.3: Finalized RUNBOOK_COMPLETE.md (38 workflows), screenshots_final/SCREENSHOT_INDEX.md (SS-001 to SS-049), and PROJECT_RESUMPTION_REPORT.md with verified edu.project1.* classes and 49,026/4,534/1,666/26 counts. Exit 0.
+[2026-10-21 00:05] Phase R4.1: Updated all 39 files under /project with replication=3 to replication=2 via WebHDFS PUT ?op=SETREPLICATION&replication=2 -> HTTP 200 OK ({"boolean":true}). Verified NameNode JMX UnderReplicatedBlocks dropped from 29 to 0 (BlocksTotal=441, CorruptBlocks=0, MissingBlocks=0). Captured SS-050 and SS-053. Exit 0.
+[2026-10-21 00:12] Phase R4.2: Configured .config("spark.hadoop.dfs.replication", "2") / .set("spark.hadoop.dfs.replication", "2") across all 8 Spark HDFS writer Scala classes and scripts/run_pipeline.ps1 + scripts/run_pipeline.sh; added opt-in --hold-ui <seconds> support to CMUPerformanceBenchmarker.scala. Exit 0.
+[2026-10-21 00:40] Phase R4.3: Provisioned Eclipse Adoptium OpenJDK 17.0.20.1 via Coursier and executed sbt -batch test assembly in D:\BigData\Project_1\src\scala -> Compiled 13 main + 1 test sources, CMUUnitTests 3/3 passed (850 ms), built target\scala-2.12\bigdata-analytics-assembly-1.0.0.jar (110,013 bytes). Captured SS-051. Exit 0.
+[2026-10-21 00:46] Phase R4.4: Executed python src\python\alert_monitor.py (Exit 0) and launched streamlit run src\python\dashboard.py --server.port 8501 (HTTP 200 OK). Captured full-page live dashboard screenshot SS-052. Exit 0.

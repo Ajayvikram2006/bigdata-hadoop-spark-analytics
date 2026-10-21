@@ -3,6 +3,33 @@
 **Course:** 23AID302 — Big Data Analytics
 **First Review:** October 5, 2026
 
+> **Start here:** run/verify everything with [`docs/RUNBOOK.md`](docs/RUNBOOK.md); find any source file in [`docs/PROJECT_MAP.md`](docs/PROJECT_MAP.md); current results in [`docs/reports/FINAL_ACCEPTANCE_REPORT.md`](docs/reports/FINAL_ACCEPTANCE_REPORT.md).
+
+## Repository Structure (follows the pipeline flow)
+
+```
+Project_1/
+|-- README.md                  this file
+|-- docker/                    cluster definition (NameNode, 2 DataNodes, Spark Master/Worker)
+|-- data/raw/                  immutable source datasets (CMU OpenCloud, HDFS_v2)
+|-- src/
+|   |-- mapreduce/             Java MapReduce baseline
+|   |-- scala/
+|   |   |-- 01_preprocessing/      raw -> clean Parquet
+|   |   |-- 02_batch_processing/   rdd / dataframe / dataset / sql
+|   |   |-- 03_machine_learning/   Logistic Regression, Random Forest
+|   |   |-- 04_anomaly_and_drift/  K-Means, drift detection
+|   |   |-- 05_streaming/          historical Structured Streaming replay
+|   |   `-- 06_benchmark_dag/      performance benchmark + Spark DAG demo
+|   `-- python/                dashboard + alert monitor
+|-- metrics/                   saved results read by the dashboard
+|-- scripts/                   MapReduce build + pipeline scripts
+|-- evidence/                  run logs and screenshots
+|-- docs/                      RUNBOOK, PROJECT_MAP, reports/, history/, archive/
+`-- archive/                   backups and legacy files (not used at runtime)
+```
+Details: [`docs/PROJECT_MAP.md`](docs/PROJECT_MAP.md).
+
 ## Project Overview
 
 A production-grade Big Data analytics system built on Apache Hadoop and Apache Spark,
@@ -47,10 +74,10 @@ Structured Streaming historical replay, and statistical drift detection.
 
 | File | Purpose |
 |---|---|
-| development.md | Engineering diary — complete implementation history |
-| requirements-traceability.md | Faculty requirement → implementation → evidence mapping |
-| evidence-register.md | Screenshot inventory (SS-01 through SS-37) |
-| commands_history.log | All commands run with timestamps and results |
+| docs/history/development.md | Engineering diary — complete implementation history |
+| docs/reports/requirements-traceability.md | Faculty requirement → implementation → evidence mapping |
+| docs/reports/evidence-register.md | Screenshot inventory (SS-01 through SS-37) |
+| docs/history/commands_history.log | All commands run with timestamps and results |
 
 ## Evidence
 

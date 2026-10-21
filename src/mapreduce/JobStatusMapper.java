@@ -7,6 +7,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
+// VIVA NOTES - MapReduce Mapper
+// * Input record = one CSV line (key = byte offset). Split on commas, take column 5 (status), map 0->SUCCESS, 1->FAILED, 2->KILLED, anything else -> UNKNOWN_<code>.
+// * Emits (label, 1). Bad lines are counted in Hadoop counters (DataQuality) instead of failing the job.
 /**
  * JobStatusMapper — Phase 5 (MapReduce Baseline)
  *
