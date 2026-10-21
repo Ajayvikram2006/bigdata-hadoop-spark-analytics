@@ -1,0 +1,28 @@
+﻿# ============================================================
+# ML Drift Detection Evaluation -- Phase 16
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMUDriftDetection-Phase16
+Framework       : Spark MLlib
+Method          : Statistical Z-Score Comparison
+Split Strategy  : Chronological split (70% Reference / 30% Current)
+Alert Threshold : Z-score > 1.0 (1 std deviation)
+
+--- Split ---
+Reference Distribution (Baseline) : 37,491 records
+Current Distribution (Incoming)   : 16,068 records
+
+--- Performance ---
+FEATURE            | REF MEAN   | CUR MEAN   | Z-SCORE  | STATUS
+--------------------------------------------------------------------------------
+totalTasks         |     629.73 |     445.08 |     0.08 | STABLE
+mapReduceRatio     |     279.81 |     162.89 |     0.07 | STABLE
+queueWaitMs        |   28749.71 |   22398.08 |     0.01 | STABLE
+
+--- Interpretation ---
+The data distributions for our primary predictive features are extremely stable 
+across the timeline of the CMU cluster. All features demonstrated a Z-score 
+of less than 0.1, meaning the average values deviated by less than 10% of 
+a standard deviation. No model drift warnings were triggered. The Random Forest 
+model trained in Phase 13 remains valid for the current data.

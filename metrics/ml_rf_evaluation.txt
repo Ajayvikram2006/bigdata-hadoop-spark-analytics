@@ -1,0 +1,46 @@
+# ============================================================
+# ML Random Forest Evaluation -- Phase 13 (Remediated)
+# Date: 2026-08-17
+# ============================================================
+
+Job Name        : CMURandomForest-Phase13
+Framework       : Spark MLlib
+Algorithm       : Random Forest Classifier (50 Trees, Max Depth 10, Seed 42)
+Input Data      : hdfs://namenode:9000/project/batch_results/sql_output
+
+--- Split ---
+Training Data: 42,927 records (80%)
+Testing Data : 10,632 records (20%)
+
+--- Performance ---
+Accuracy           : 0.9228
+Weighted Precision : 0.9048
+Weighted Recall    : 0.9228
+Weighted F1-Score  : 0.9037
+Area Under ROC     : 0.8947
+Training Time      : 5.668 seconds
+
+--- Confusion Matrix (label=0: SUCCESS, label=1: FAILED) ---
+True  Positives (TP, FAILED caught)    : 171
+True  Negatives (TN, SUCCESS caught)   : 9,640
+False Positives (FP, SUCCESS -> FAILED): 106
+False Negatives (FN, FAILED -> SUCCESS): 715
+
+--- FAILED-Class (label=1) Specific Metrics ---
+Precision (FAILED) : 0.6173
+Recall    (FAILED) : 0.1930  (19.30% caught vs 0.90% for LR — 21x improvement)
+F1-Score  (FAILED) : 0.2941
+
+--- Feature Importances ---
+totalTasks          : 0.535434  (53.5%)
+mapReduceRatio      : 0.306473  (30.6%)
+queueWaitMs         : 0.158093  (15.8%)
+taskFailureCount    : 0.000000
+retryRate           : 0.000000
+
+--- Model Persistence ---
+HDFS Save Path: hdfs://namenode:9000/project/models/random_forest
+Persistence Status: SAVED & VERIFIED (independent model reload successful)
+
+--- Detailed Interpretation ---
+The Random Forest model captures significant non-linear failure signals (AUC=0.8947). In contrast to Logistic Regression which captured only 8 failed jobs, Random Forest correctly flagged 171 failed jobs with a Precision of 61.73%. The primary drivers of failure are 'totalTasks' (53.5%) and 'mapReduceRatio' (30.6%), confirming that task scale and workload skew are the primary failure predictors on the CMU OpenCloud cluster.

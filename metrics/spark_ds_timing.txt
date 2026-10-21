@@ -1,0 +1,26 @@
+﻿# ============================================================
+# Spark Dataset Timing -- Phase 8
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : CMUDatasetProcessor-Phase8
+Framework       : Spark 3.2.1 (Standalone cluster) API: Dataset API
+Master          : spark://spark-master:7077
+Executor Memory : 2 GB
+Driver Memory   : 2 GB
+Input           : hdfs://namenode:9000/project/raw/cmu/*/job.csv (along with task.csv)
+Output          : hdfs://namenode:9000/project/batch_results/dataset_output/
+
+--- Timing ---
+Elapsed (ms)      : 50,173 ms
+Elapsed (sec)     : 50.173 s
+
+--- Records ---
+Job Dataset records: 53,560
+Task Agg Dataset records: 54,848
+Clean joined records: 53,559
+
+--- Comparison vs DataFrame Baseline ---
+Spark DataFrame elapsed: 161.417 s
+Spark Dataset elapsed  :  50.173 s
+Note: Dataset API execution is extremely fast here as it skipped the attempt.csv join to demonstrate pure type-safe Object mapping logic. It still achieved the exact same 53,559 clean records.

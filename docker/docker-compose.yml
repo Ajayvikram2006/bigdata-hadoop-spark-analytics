@@ -1,0 +1,108 @@
+services:
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    restart: unless-stopped
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+      - D:/BigData/Project_1:/host-project
+    env_file:
+      - hadoop.env
+    environment:
+      - CLUSTER_NAME=bigdata-project
+    networks:
+      - bigdata_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9870/dfshealth.html"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    restart: unless-stopped
+    volumes:
+      - hadoop_datanode1:/hadoop/dfs/data
+      - D:/BigData/Project_1:/host-project
+    env_file:
+      - hadoop.env
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+    networks:
+      - bigdata_net
+    depends_on:
+      namenode:
+        condition: service_healthy
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    restart: unless-stopped
+    volumes:
+      - hadoop_datanode2:/hadoop/dfs/data
+      - D:/BigData/Project_1:/host-project
+    env_file:
+      - hadoop.env
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+    networks:
+      - bigdata_net
+    depends_on:
+      namenode:
+        condition: service_healthy
+
+  spark-master:
+    image: bde2020/spark-master:3.2.1-hadoop3.2
+    container_name: spark-master
+    hostname: spark-master
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+      - "4040:4040"
+    volumes:
+      - D:/BigData/Project_1:/host-project
+    env_file:
+      - hadoop.env
+    environment:
+      - INIT_DAEMON_STEP=setup_spark
+      - SPARK_MASTER_HOST=spark-master
+    networks:
+      - bigdata_net
+    depends_on:
+      namenode:
+        condition: service_healthy
+
+  spark-worker:
+    image: bde2020/spark-worker:3.2.1-hadoop3.2
+    container_name: spark-worker
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - D:/BigData/Project_1:/host-project
+    env_file:
+      - hadoop.env
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_WORKER_CORES=4
+      - SPARK_WORKER_MEMORY=4g
+    networks:
+      - bigdata_net
+    depends_on:
+      - spark-master
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode1:
+  hadoop_datanode2:
+
+networks:
+  bigdata_net:
+    driver: bridge

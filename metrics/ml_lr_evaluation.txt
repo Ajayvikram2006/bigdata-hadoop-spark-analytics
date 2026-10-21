@@ -1,0 +1,47 @@
+# ============================================================
+# ML Logistic Regression Evaluation -- Phase 12 (Remediated)
+# Date: 2026-08-17
+# ============================================================
+
+Job Name        : CMULogisticRegression-Phase12
+Framework       : Spark MLlib
+Algorithm       : Logistic Regression (L2 Regularized, regParam=0.01, maxIter=100)
+Input Data      : hdfs://namenode:9000/project/batch_results/sql_output
+
+--- Split ---
+Training Data: 42,927 records (80%)
+Testing Data : 10,632 records (20%)
+
+--- Performance ---
+Accuracy           : 0.9153
+Weighted Precision : 0.8630
+Weighted Recall    : 0.9153
+Weighted F1-Score  : 0.8776
+Area Under ROC     : 0.6871
+Training Time      : 2.272 seconds
+
+--- Confusion Matrix (label=0: SUCCESS, label=1: FAILED) ---
+True  Positives (TP, FAILED caught)    : 8
+True  Negatives (TN, SUCCESS caught)   : 9,724
+False Positives (FP, SUCCESS -> FAILED): 22
+False Negatives (FN, FAILED -> SUCCESS): 878
+
+--- FAILED-Class (label=1) Specific Metrics ---
+Precision (FAILED) : 0.2667
+Recall    (FAILED) : 0.0090  (0.90% caught due to severe 10.8:1 imbalance without class weighting)
+F1-Score  (FAILED) : 0.0175
+
+--- Coefficients ---
+queueWaitMs         : 0.000000
+totalTasks          : 0.000093
+mapReduceRatio      : 0.000073
+taskFailureCount    : 0.000000
+retryRate           : 0.000000
+Intercept           : -2.483782
+
+--- Model Persistence ---
+HDFS Save Path: hdfs://namenode:9000/project/models/logistic_regression
+Persistence Status: SAVED & VERIFIED (independent model reload successful)
+
+--- Baseline Comparison Notes ---
+Tuning regParam to 0.01 (pure L2) successfully lifted the ROC-AUC from the 0.5000 random-guess baseline to 0.6871. However, because standard Logistic Regression does not handle the 10.8:1 class imbalance, its decision boundary heavily favors the majority SUCCESS class, resulting in a low Recall for FAILED jobs (0.0090). This serves as the clear motivation for using the non-linear Random Forest classifier.

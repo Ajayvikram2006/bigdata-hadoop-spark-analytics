@@ -1,0 +1,46 @@
+﻿# ============================================================
+# MapReduce Baseline Timing — Phase 5.3
+# Date: 2026-08-16
+# ============================================================
+
+Job Name    : CMU-JobStatus-Counter
+Framework   : Hadoop MapReduce 3.2.1
+Input       : hdfs://namenode:9000/project/raw/cmu/*/job.csv (22 GB, 20 months)
+Output      : hdfs://namenode:9000/project/mapreduce_output/job_status_counts/
+
+Execution Mode      : Local (single-node MapReduce inside namenode container)
+Map Tasks           : 20
+Reduce Tasks        : 1
+Combiner Used       : Yes (JobStatusReducer as local pre-aggregator)
+
+--- Timing ---
+Start Time    : 2026-08-16 12:20:35 UTC
+End Time      : 2026-08-16 12:20:38 UTC
+Elapsed (ms)  : 3598 ms
+Elapsed (sec) : 3 seconds
+real (wall)   : 5.283 s
+user          : 5.077 s
+sys           : 1.744 s
+
+--- Records ---
+Map Input Records   : 55,272
+Map Output Records  : 55,252  (20 header rows skipped)
+Combine Output Recs : 69      (pre-aggregated)
+Reduce Output Recs  : 4       (SUCCESS, FAILED, KILLED, UNKNOWN_6)
+
+--- Results ---
+FAILED    :  4,534  (8.21%)
+KILLED    :  1,666  (3.01%)
+SUCCESS   : 49,026 (88.74%)
+UNKNOWN_6 :     26  (0.05%)
+TOTAL     : 55,252
+
+--- DataQuality Counters ---
+UNKNOWN_STATUS : 26  (status=6 records — excluded from ML)
+MALFORMED      : 0   (no malformed records found)
+
+--- Comparison Baseline (for Phase 19) ---
+This timing will be compared against:
+  - Spark RDD     (Phase 6)
+  - Spark DataFrame (Phase 7)
+  - Spark Dataset   (Phase 8)

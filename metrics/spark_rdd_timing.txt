@@ -1,0 +1,45 @@
+﻿# ============================================================
+# Spark RDD Timing -- Phase 6
+# Date: 2026-08-16
+# ============================================================
+
+Job Name        : RDDJobParser-Phase6
+Framework       : Spark 3.2.1 (Standalone cluster)
+Master          : spark://spark-master:7077
+Executor Memory : 2 GB
+Driver Memory   : 2 GB
+Input           : hdfs://namenode:9000/project/raw/cmu/*/job.csv (22 GB, 20 months)
+Output 1        : hdfs://namenode:9000/project/batch_results/rdd_status_counts/
+Output 2        : hdfs://namenode:9000/project/batch_results/rdd_queue_stats/
+
+--- Partitions ---
+RDD Partitions  : 20 (one per job.csv file)
+Executor Cores  : 4
+
+--- Timing ---
+Elapsed (ms)    : 7,190 ms
+Elapsed (sec)   : 7.190 s
+
+--- Records ---
+Raw lines       : 55,272
+Parsed records  : 55,252  (20 header rows dropped by flatMap)
+
+--- Status Distribution ---
+SUCCESS         : 49,026  (88.73%)
+FAILED          :  4,534  (8.21%)
+KILLED          :  1,666  (3.02%)
+UNKNOWN_6       :     26  (0.05%)
+
+--- Queue Wait Time Stats (ms) ---
+Status    Count    Avg(ms)    Min(ms)    Max(ms)
+FAILED     4533   76,348       830   32,207,653
+KILLED     1647   28,875     1,211    6,821,502
+SUCCESS   49026   22,267       757   29,144,468
+
+KEY FINDING: FAILED jobs wait 3.4x longer in queue than SUCCESS jobs.
+             This is a strong predictive signal for the ML model.
+
+--- Comparison vs MapReduce Baseline ---
+MapReduce elapsed : 5.283 s (wall-clock)
+Spark RDD elapsed : 7.190 s
+Note: Spark overhead includes cluster init. On larger data Spark wins due to in-memory processing.

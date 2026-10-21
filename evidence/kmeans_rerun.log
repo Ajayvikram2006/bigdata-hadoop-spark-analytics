@@ -1,0 +1,89 @@
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+26/10/21 09:45:21 INFO SparkContext: Running Spark version 3.2.1
+26/10/21 09:45:21 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/21 09:45:21 INFO ResourceUtils: ==============================================================
+26/10/21 09:45:21 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/21 09:45:21 INFO ResourceUtils: ==============================================================
+26/10/21 09:45:21 INFO SparkContext: Submitted application: CMUKMeansAnomaly-Phase14.2
+26/10/21 09:45:21 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 2048, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/21 09:45:21 INFO ResourceProfile: Limiting resource is cpu
+26/10/21 09:45:21 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/21 09:45:21 INFO SecurityManager: Changing view acls to: root
+26/10/21 09:45:21 INFO SecurityManager: Changing modify acls to: root
+26/10/21 09:45:21 INFO SecurityManager: Changing view acls groups to: 
+26/10/21 09:45:21 INFO SecurityManager: Changing modify acls groups to: 
+26/10/21 09:45:21 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+26/10/21 09:45:21 INFO Utils: Successfully started service 'sparkDriver' on port 37889.
+26/10/21 09:45:21 INFO SparkEnv: Registering MapOutputTracker
+26/10/21 09:45:21 INFO SparkEnv: Registering BlockManagerMaster
+26/10/21 09:45:21 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/21 09:45:21 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/21 09:45:21 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/21 09:45:21 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-3cc2132c-0f96-4d59-9764-9b9af7c00376
+26/10/21 09:45:21 INFO MemoryStore: MemoryStore started with capacity 366.3 MiB
+26/10/21 09:45:21 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/21 09:45:21 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+26/10/21 09:45:21 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+26/10/21 09:45:21 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://spark-master:4041
+26/10/21 09:45:21 INFO SparkContext: Added JAR file:/tmp/bigdata-stage.jar at spark://spark-master:37889/jars/bigdata-stage.jar with timestamp 1792575921139
+26/10/21 09:45:22 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/10/21 09:45:22 INFO TransportClientFactory: Successfully created connection to spark-master/172.18.0.5:7077 after 29 ms (0 ms spent in bootstraps)
+26/10/21 09:45:22 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261021094522-0008
+26/10/21 09:45:22 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261021094522-0008/0 on worker-20261021092718-172.18.0.6-44175 (172.18.0.6:44175) with 2 core(s)
+26/10/21 09:45:22 INFO StandaloneSchedulerBackend: Granted executor ID app-20261021094522-0008/0 on hostPort 172.18.0.6:44175 with 2 core(s), 2.0 GiB RAM
+26/10/21 09:45:22 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 34473.
+26/10/21 09:45:22 INFO NettyBlockTransferService: Server created on spark-master:34473
+26/10/21 09:45:22 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/21 09:45:22 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 34473, None)
+26/10/21 09:45:22 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:34473 with 366.3 MiB RAM, BlockManagerId(driver, spark-master, 34473, None)
+26/10/21 09:45:22 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 34473, None)
+26/10/21 09:45:22 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 34473, None)
+26/10/21 09:45:22 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261021094522-0008/0 is now RUNNING
+26/10/21 09:45:22 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+======================================================================
+CMUKMeansAnomaly -- Phase 14.2 -- Unsupervised Learning
+Input Data: hdfs://namenode:9000/project/processed/hdfs_logs
+======================================================================
+
+[INFO] Extracting time-windowed features (5 minutes)...
+[INFO] Total 5-minute node windows generated: 294649
+
+[INFO] Training K-Means clustering model (k=5)...
+[INFO] Training completed in 16.866 seconds.
+
+[INFO] Calculating anomaly scores (distance to centroid)...
+
+======================================================================
+ANOMALY DETECTION RESULTS -- K-Means (Phase 14.2)
+======================================================================
+[INFO] Cluster distribution:
++-------+------+
+|cluster| count|
++-------+------+
+|      0| 76015|
+|      1|197809|
+|      2|  4818|
+|      3| 15423|
+|      4|   584|
++-------+------+
+
+[INFO] Top 10 Most Anomalous Node Windows (Highest Anomaly Score):
++-------------------+---------+------------------+----------+----------+------------+-------+
+|window_start       |node_name|anomaly_score     |eventCount|errorCount|warningCount|cluster|
++-------------------+---------+------------------+----------+----------+------------+-------+
+|2016-11-18 16:25:00|namenode |4945.130660562616 |108385.0  |0.0       |0.0         |4      |
+|2016-10-22 14:25:00|namenode |2653.3910474117374|85297.0   |0.0       |0.0         |4      |
+|2016-10-23 05:40:00|namenode |2130.4104361199074|78673.0   |0.0       |0.0         |4      |
+|2016-10-22 15:30:00|namenode |1946.1522803275625|76148.0   |0.0       |0.0         |4      |
+|2016-10-22 14:35:00|namenode |1811.689142660988 |74229.0   |0.0       |0.0         |4      |
+|2016-10-23 05:20:00|namenode |1698.9232893860324|72564.0   |0.0       |0.0         |4      |
+|2016-10-22 14:15:00|namenode |1656.492760457034 |71836.0   |0.0       |0.0         |4      |
+|2016-10-22 15:20:00|namenode |1642.3590072128025|71708.0   |0.0       |0.0         |4      |
+|2016-10-20 17:15:00|namenode |1498.9975527688193|69470.0   |0.0       |0.0         |4      |
+|2016-10-22 15:10:00|namenode |1097.7627588690298|62545.0   |0.0       |0.0         |4      |
++-------------------+---------+------------------+----------+----------+------------+-------+
+only showing top 10 rows
+
+======================================================================
+Record this in: metrics/ml_kmeans_anomaly.txt
+EXIT_CODE=0

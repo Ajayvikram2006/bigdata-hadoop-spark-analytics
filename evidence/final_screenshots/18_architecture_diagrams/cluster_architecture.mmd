@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph Host["Windows 11 Host (D:\BigData\Project_1) • Docker Bridge Network: docker_bigdata_net (172.18.0.0/16)"]
+        direction TB
+
+        subgraph HDFS["Layer 1: Hadoop 3.2.1 Distributed Storage & Local MapReduce Layer (hdfs://namenode:9000/project/)"]
+            direction LR
+            NN["<b>1. namenode (172.18.0.2)</b><br/>Image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8<br/>Published Host Ports: localhost:9870 (Web UI / WebHDFS), localhost:9000 (HDFS IPC)<br/>Role: HDFS Namespace Master + Local MapReduce Runner (mapreduce.framework.name=local, No YARN)<br/>Volumes: hadoop_namenode:/hadoop/dfs/name, D:/BigData/Project_1:/host-project"]
+            DN1["<b>2. datanode1 (172.18.0.3)</b><br/>Image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8<br/>Internal Ports: 9864 (HTTP), 9866 (Data Transfer)<br/>Role: Physical Block Storage Node 1 (441 Replicated Blocks, ~38.38 GB Used)<br/>Volumes: hadoop_datanode1:/hadoop/dfs/data, D:/BigData/Project_1:/host-project"]
+            DN2["<b>3. datanode2 (172.18.0.4)</b><br/>Image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8<br/>Internal Ports: 9864 (HTTP), 9866 (Data Transfer)<br/>Role: Physical Block Storage Node 2 (441 Replicated Blocks, ~38.38 GB Used)<br/>Volumes: hadoop_datanode2:/hadoop/dfs/data, D:/BigData/Project_1:/host-project"]
+        end
+
+        subgraph SPARK["Layer 2: Apache Spark 3.2.1 Standalone Compute Cluster (Scala 2.12.15 + SBT 1.8.3)"]
+            direction LR
+            SM["<b>4. spark-master (172.18.0.5 — Standalone Master & Driver Node)</b><br/>Image: bde2020/spark-master:3.2.1-hadoop3.2<br/>Published Host Ports: localhost:8080 (Master UI), localhost:7077 (RPC), localhost:4040 (Driver DAG UI)<br/>Env: SPARK_MASTER_HOST=spark-master, hostname: spark-master<br/>Artifacts: /opt/spark-apps/bigdata-analytics-assembly-1.0.0.jar & /host-project"]
+            SW["<b>5. spark-worker (172.18.0.6 — Standalone Executor Node)</b><br/>Image: bde2020/spark-worker:3.2.1-hadoop3.2<br/>Published Host Port: localhost:8081 (Worker Web UI)<br/>Allocated Resources: SPARK_WORKER_CORES=4 (4 CPU Cores), SPARK_WORKER_MEMORY=4g (4.0 GiB RAM)<br/>Registered Master URL: spark://spark-master:7077 (State: ALIVE)"]
+        end
+
+        subgraph APPS["Layer 3: Independent Analytical Branches (Package: edu.project1.*) & Host Visualization Layer"]
+            direction LR
+            BRA["<b>Branch A: CMU OpenCloud Job Traces</b><br/>• Raw HDFS Input: /project/raw/cmu/ (22.025 GB, 20 months, 55,252 raw jobs: 49,026 SUCCESS, 4,534 FAILED, 1,666 KILLED, 26 UNKNOWN_6 -> 53,559 clean binary records)<br/>• Batch & ETL: MapReduce (edu.project1.mapreduce.JobStatusDriver), RDD (edu.project1.rdd.RDDJobParser), DataFrame (edu.project1.dataframe.CMUDataFrameProcessor), Dataset (edu.project1.dataset.CMUDatasetProcessor), SQL (edu.project1.sql.CMUSQLProcessor), Preprocessor (edu.project1.preprocessing.CMUPreprocessor)<br/>• ML & Evaluation: Logistic Regression (edu.project1.ml.CMULogisticRegression, AUC 0.6871) & Random Forest (edu.project1.ml.CMURandomForest, Acc 92.28%, AUC 0.8947), Drift (edu.project1.ml.CMUDriftDetection), Benchmark (edu.project1.benchmarking.CMUPerformanceBenchmarker)"]
+            BRB["<b>Branch B: HDFS_v2 Node Log Intelligence</b><br/>• Raw HDFS Input: /project/raw/hdfs_v2/ (16.057 GB, 31 log files, 71.1M raw lines -> 58.1M parsed entries)<br/>• Log Preprocessing: edu.project1.preprocessing.HDFSLogPreprocessor -> /project/processed/hdfs_logs/ (Snappy Parquet partitioned by level)<br/>• Unsupervised ML & Streaming: edu.project1.ml.CMUKMeansAnomaly (k=5 over 294,649 5-min windows; top score 7584.49 on namenode) & edu.project1.streaming.CMUHistoricalStreaming (historical file replay)"]
+            HOSTUI["<b>Host Operational Monitoring & UI</b><br/>• Metrics Store: D:\BigData\Project_1\metrics\*.txt<br/>• CLI Alert Monitor: python src/python/alert_monitor.py (Real K-Means & Drift alerts + labeled Demo Simulation RF alert)<br/>• Streamlit Web UI: streamlit run src/python/dashboard.py at http://localhost:8501<br/>• Unrelated Container Preserved: mongodb on localhost:27017 (untouched)"]
+        end
+
+        HDFS <-->|"hdfs://namenode:9000 • dfs.replication=2 (raw/MR) & client rep=3 (29 Spark files) • 128 MB blocks"| SPARK
+        SPARK --> APPS
+    end
